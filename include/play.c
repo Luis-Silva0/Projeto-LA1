@@ -68,7 +68,10 @@ int movement (Player j,Map *m) {
                 mvprintw (j.p.y,j.p.x,"%c",j.character);
                 mvprintw (ty,tx,"%c",m[ty][tx].ch);
                 }
-            break;      
+            break;
+        case 'k':
+            j.health = 0;
+            break;     
         default:
             break;
         }
@@ -89,11 +92,11 @@ int movement (Player j,Map *m) {
                 break;
             }
         }
-    }
-    if (j.health == 0) {
-        return 0;
-    }
-    else return 1;
+        if (j.health == 0) {
+            return 0;
+        }
+    }    
+    return 1;
 }
 
 int play (Map * m,int x,int y) {
