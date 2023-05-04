@@ -8,7 +8,7 @@
 // Map* mapa;
 
 void game () {
-    int y,x,floor,c;
+    int y,x,tx,floor,c;
     floor = 0;
     initscr ();
     start_color ();
@@ -17,6 +17,7 @@ void game () {
     noecho ();
     curs_set(0);
     getmaxyx (stdscr,y,x);
+    tx = x;
     x-=(x/10);
     while (floor < 5) {
         erase ();
@@ -35,9 +36,20 @@ void game () {
         }
         refresh ();
         c = play (mapa,x,y);
-        if (c != 2) break;
-        else floor++;
+        if (c == 1) {
+            floor++;
+        }
+        else {
+            if (c == 0) {
+            erase ();
+            mvprintw (y/2,(tx/2)-4,"%s","You Died");
+            mvprintw ((y/2)+1,(tx/2)-4,"%s","Press any key to leave");
+            refresh();
+            }
+            break;
+        }
     }
+    getchar ();
     endwin ();
 }
 

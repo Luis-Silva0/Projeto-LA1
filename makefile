@@ -14,7 +14,7 @@ PROGRAM = game
 
 .DEFAULT_GOAL = build
 
-build: setup $(PROGRAM) clean
+build: setup $(PROGRAM) run clean
 
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ -lncurses
@@ -27,6 +27,8 @@ setup:
 	@mkdir -p $(BLD_DIR)
 
 .PHONY:clean
+run:
+	@./game
 clean:
 	@-rm -r $(BLD_DIR)
 	@-rm game
