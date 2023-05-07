@@ -22,19 +22,6 @@ void game () {
     while (floor < 5) {
         erase ();
         mapa = createmap (x,y);
-        for (int i = 0;i < y;i++) {
-            for (int j = 0;j < x;j++) {
-                if (mapa[i][j].ch == '#'){
-                    attrset (COLOR_PAIR(1));
-                    mvprintw(i,j,"%c",mapa[i][j].ch);
-                }
-                else {
-                    attrset (COLOR_PAIR(2));
-                    mvprintw(i,j,"%c",mapa[i][j].ch); 
-                }
-            }
-        }
-        refresh ();
         c = play (mapa,x,y);
         if (c == 1) {
             floor++;

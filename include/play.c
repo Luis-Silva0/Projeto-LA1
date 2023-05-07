@@ -3,11 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-typedef struct player {
-    Position p;
-    char character;
-    int health;
-} Player;
+
+#include "play.h"
+#include "map.h"
 
 int movement (Player j,Map *m) {
     int tx,ty,t;
@@ -23,12 +21,14 @@ int movement (Player j,Map *m) {
         s = (char) getchar ();
         tx = j.p.x;
         ty = j.p.y;
+        erase();
         switch (s)
         {
         case 'w':
             j.p.y--;
             if (m[j.p.y][j.p.x].walkable == false) {
                 j.p.y++;
+                attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
@@ -40,6 +40,7 @@ int movement (Player j,Map *m) {
             j.p.y++;
             if (m[j.p.y][j.p.x].walkable == false) {
                 j.p.y--;
+                attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
@@ -51,6 +52,7 @@ int movement (Player j,Map *m) {
             j.p.x--;
             if (m[j.p.y][j.p.x].walkable == false) {
                 j.p.x++;
+                attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
@@ -62,6 +64,7 @@ int movement (Player j,Map *m) {
             j.p.x++;
             if (m[j.p.y][j.p.x].walkable == false) {
                 j.p.x--;
+                attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
@@ -75,8 +78,10 @@ int movement (Player j,Map *m) {
         default:
             break;
         }
+        printMap(m, j);
         refresh ();
         if (m[j.p.y][j.p.x].ch == 's') {
+            attrset(COLOR_PAIR(2));
             mvprintw (0,0,"%s","Once you go down you can't go back up are you sure: Y / N");
             refresh();
             s = (char) getchar ();
@@ -87,7 +92,7 @@ int movement (Player j,Map *m) {
                 return 2;
                 break;
             case 'n':
-                break;            
+                break;
             default:
                 break;
             }
@@ -103,7 +108,7 @@ int play (Map * m,int x,int y) {
     srand(clock());
     int myx,myy;
     myx = myy = -1;
-    while (myx == -1 || myy == -1){       
+    while (myx == -1 || myy == -1){
         myy = (rand () % y);
         myx = (rand () % x);
         if (m[myy][myx].walkable == false) {
@@ -112,7 +117,7 @@ int play (Map * m,int x,int y) {
         }
     }
     Player me = {{myy,myx},'@',100};
-    mvprintw (me.p.y,me.p.x,"%c",me.character);
+    printMap(mapa, me);
     refresh ();
     int r = movement(me,m);
     return r;

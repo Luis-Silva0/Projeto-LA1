@@ -4,20 +4,11 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdbool.h>
-typedef struct pos {
-    int y;
-    int x;
-} Position;
-typedef struct map {
-    char ch;
-    bool walkable;
-} *Map;
+#include <math.h>
 
-typedef struct sala {
-    int bx,by,lx,ly;
-} *Salas;
-Salas rooms;
-Map* mapa;
+#include "map.h"
+#include "play.h"
+
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
@@ -113,8 +104,67 @@ Map* createmap (int x, int y) {
     return mapa;
 }
 
-//void main () {
-//    createmap(100,40);
-//}
+void printTile(Map *map, Player player, int y, int x) {
+    if (player.p.y == y && player.p.x == x) {
+        attrset(COLOR_PAIR(2));
+        mvprintw(y, x, "%c", player.character);
+        return;
+    }
 
-//#endif 
+    if (map[y][x].ch == '#') {
+        attrset(COLOR_PAIR(1));
+        mvprintw(y, x, "%c", map[y][x].ch);
+    }
+    else {
+        attrset(COLOR_PAIR(2));
+        mvprintw(y, x, "%c", map[y][x].ch);
+    }
+}
+
+void printVisible(Map *map, Player player, float y, float x) {
+    int i;
+    float ox,oy;
+
+    oy = (float)player.p.y+0.5f;
+    ox = (float)player.p.x+0.5f;
+
+    for(i = 0; i < 10; i++) {
+        int ioy = (int)oy;
+        int iox = (int)ox;
+
+        printTile(map, player, ioy, iox);
+
+        if (map[ioy][iox].ch == '#') {
+            attrset(COLOR_PAIR(1));
+
+            if (map[ioy+1][iox].ch == '#') {
+                mvprintw(ioy+1, iox, "%c",'#');
+            }
+            if (map[ioy-1][iox].ch == '#') {
+                mvprintw(ioy-1, iox, "%c",'#');
+            }
+            if (map[ioy][iox+1].ch == '#') {
+                mvprintw(ioy, iox+1, "%c",'#');
+            }
+            if (map[ioy][iox-1].ch == '#') {
+                mvprintw(ioy, iox-1, "%c",'#');
+            }
+            return;
+        }
+        ox+=x;
+        oy+=y;
+    }
+}
+
+void printMap(Map *map, Player player) {
+    float x,y;
+    int i;
+
+    for (i = 0; i < 360; i++) {
+        y=sin((float)i*0.01745f);
+        x=cos((float)i*0.01745f);
+        printVisible(map, player, y, x);
+    }
+}
+
+//#endif

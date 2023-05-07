@@ -14,10 +14,10 @@ PROGRAM = game
 
 .DEFAULT_GOAL = build
 
-build: setup $(PROGRAM) run clean
+build: clean setup $(PROGRAM) run
 
 $(PROGRAM): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ -lncurses
+	$(CC) $(CFLAGS) -o $@ $^ -lncurses -lm
 
 $(BLD_DIR)/%.o: $(SRC_DIR)/%.c 
 	$(CC) -c $(CFLAGS) -o $@ $^
