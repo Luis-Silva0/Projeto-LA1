@@ -7,80 +7,80 @@
 #include "play.h"
 #include "map.h"
 
-int movement (Player j,Map *m) {
+int movement(Game game) {
     int tx,ty,t;
     t = 0;
     char s = '1';
     while (s != 'q') {
         if (t != time(0)) {
-            for (int i = 0;i < 57;i++) {
-                mvprintw (0,i,"%s"," ");
+            for (int i = 0; i < 57; i++) {
+                mvprintw (0, i, "%s", " ");
             }
         }
         t = time(0);
-        s = (char) getchar ();
-        tx = j.p.x;
-        ty = j.p.y;
+        s = (char) getchar();
+        tx = game->player.p.x;
+        ty = game->player.p.y;
         erase();
         switch (s)
         {
         case 'w':
-            j.p.y--;
-            if (m[j.p.y][j.p.x].walkable == false) {
-                j.p.y++;
+            game->player.p.y--;
+            if (game->map[game->player.p.y][game->player.p.x].walkable == false) {
+                game->player.p.y++;
                 attrset(COLOR_PAIR(2));
-                mvprintw (0,0,"%s","Wall here");
+                mvprintw(0,0,"%s","Wall here");
             }
             else {
-                mvprintw (j.p.y,j.p.x,"%c",j.character);
-                mvprintw (ty,tx,"%c",m[ty][tx].ch);
+                mvprintw(game->player.p.y, game->player.p.x, "%c", game->player.character);
+                mvprintw(ty,tx,"%c",game->map[ty][tx].ch);
                 }
             break;
         case 's':
-            j.p.y++;
-            if (m[j.p.y][j.p.x].walkable == false) {
-                j.p.y--;
+            game->player.p.y++;
+            if (game->map[game->player.p.y][game->player.p.x].walkable == false) {
+                game->player.p.y--;
                 attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
-                mvprintw (j.p.y,j.p.x,"%c",j.character);
-                mvprintw (ty,tx,"%c",m[ty][tx].ch);
+                mvprintw (game->player.p.y,game->player.p.x,"%c",game->player.character);
+                mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 }
             break;
         case 'a':
-            j.p.x--;
-            if (m[j.p.y][j.p.x].walkable == false) {
-                j.p.x++;
+            game->player.p.x--;
+            if (game->map[game->player.p.y][game->player.p.x].walkable == false) {
+                game->player.p.x++;
                 attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
-                mvprintw (j.p.y,j.p.x,"%c",j.character);
-                mvprintw (ty,tx,"%c",m[ty][tx].ch);
+                mvprintw (game->player.p.y,game->player.p.x,"%c",game->player.character);
+                mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 }
             break;
         case 'd':
-            j.p.x++;
-            if (m[j.p.y][j.p.x].walkable == false) {
-                j.p.x--;
+            game->player.p.x++;
+            if (game->map[game->player.p.y][game->player.p.x].walkable == false) {
+                game->player.p.x--;
                 attrset(COLOR_PAIR(2));
                 mvprintw (0,0,"%s","Wall here");
             }
             else {
-                mvprintw (j.p.y,j.p.x,"%c",j.character);
-                mvprintw (ty,tx,"%c",m[ty][tx].ch);
+                mvprintw (game->player.p.y,game->player.p.x,"%c",game->player.character);
+                mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 }
             break;
         case 'k':
-            j.health = 0;
+            game->player.health = 0;
             break;     
         default:
             break;
         }
-        printMap(m, j);
+        printMap(game);
         refresh ();
-        if (m[j.p.y][j.p.x].ch == 's') {
+        if (game->map[game->player.p.y][game->player.p.x].ch == 's') {
             attrset(COLOR_PAIR(2));
             mvprintw (0,0,"%s","Once you go down you can't go back up are you sure: Y / N");
             refresh();
@@ -97,28 +97,38 @@ int movement (Player j,Map *m) {
                 break;
             }
         }
-        if (j.health == 0) {
+        if (game->player.health == 0) {
             return 0;
         }
     }    
     return 1;
 }
 
-int play (Map * m,int x,int y) {
+int play (Map *mapa, int maxX, int maxY) {
     srand(clock());
-    int myx,myy;
+
+    int myx, myy;
     myx = myy = -1;
     while (myx == -1 || myy == -1){
-        myy = (rand () % y);
-        myx = (rand () % x);
-        if (m[myy][myx].walkable == false) {
+        myy = (rand () % maxY);
+        myx = (rand () % maxX);
+        if (mapa[myy][myx].walkable == false) {
             myx = -1;
             myy = -1;
         }
     }
-    Player me = {{myy,myx},'@',100};
-    printMap(mapa, me);
+
+    Player player = {{myy,myx},'@',100};
+    Game game = (Game) malloc(sizeof(struct game));
+    game->map = mapa;
+    game->maxX = maxX;
+    game->maxY = maxY;
+    game->player = player;
+
+    printMap(game);
     refresh ();
-    int r = movement(me,m);
+
+    int r = movement(game);
+
     return r;
 }

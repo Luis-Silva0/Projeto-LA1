@@ -1,10 +1,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef struct pos {
-    int y;
-    int x;
-} Position;
+#include "play.h"
+
 typedef struct map {
     char ch;
     bool walkable;
@@ -13,6 +11,15 @@ typedef struct map {
 typedef struct sala {
     int bx,by,lx,ly;
 } *Salas;
+
+typedef struct game {
+    Map *map;
+    int maxX;
+    int maxY;
+
+    Player player;
+} *Game;
+
 Salas rooms;
 Map* mapa;
 

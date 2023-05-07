@@ -9,6 +9,7 @@
 #include "map.h"
 #include "play.h"
 
+bool FOG_OF_WAR_ENABLED = true;
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
@@ -104,49 +105,43 @@ Map* createmap (int x, int y) {
     return mapa;
 }
 
-void printTile(Map *map, Player player, int y, int x) {
-    if (player.p.y == y && player.p.x == x) {
-        attrset(COLOR_PAIR(2));
-        mvprintw(y, x, "%c", player.character);
-        return;
-    }
-
-    if (map[y][x].ch == '#') {
+void printTile(Game game, int y, int x) {
+    if (game->map[y][x].ch == '#') {
         attrset(COLOR_PAIR(1));
-        mvprintw(y, x, "%c", map[y][x].ch);
+        mvprintw(y, x, "%c", game->map[y][x].ch);
     }
     else {
         attrset(COLOR_PAIR(2));
-        mvprintw(y, x, "%c", map[y][x].ch);
+        mvprintw(y, x, "%c", game->map[y][x].ch);
     }
 }
 
-void printVisible(Map *map, Player player, float y, float x) {
+void printVisible(Game game, float y, float x) {
     int i;
     float ox,oy;
 
-    oy = (float)player.p.y+0.5f;
-    ox = (float)player.p.x+0.5f;
+    oy = (float)game->player.p.y+0.5f;
+    ox = (float)game->player.p.x+0.5f;
 
     for(i = 0; i < 10; i++) {
         int ioy = (int)oy;
         int iox = (int)ox;
 
-        printTile(map, player, ioy, iox);
+        printTile(game, ioy, iox);
 
-        if (map[ioy][iox].ch == '#') {
+        if (game->map[ioy][iox].ch == '#') {
             attrset(COLOR_PAIR(1));
 
-            if (map[ioy+1][iox].ch == '#') {
+            if (ioy+1 <= game->maxY && game->map[ioy+1][iox].ch == '#') {
                 mvprintw(ioy+1, iox, "%c",'#');
             }
-            if (map[ioy-1][iox].ch == '#') {
+            if (ioy-1 >= 0 && game->map[ioy-1][iox].ch == '#') {
                 mvprintw(ioy-1, iox, "%c",'#');
             }
-            if (map[ioy][iox+1].ch == '#') {
+            if (iox+1 <= game->maxX && game->map[ioy][iox+1].ch == '#') {
                 mvprintw(ioy, iox+1, "%c",'#');
             }
-            if (map[ioy][iox-1].ch == '#') {
+            if (iox-1 >=0 && game->map[ioy][iox-1].ch == '#') {
                 mvprintw(ioy, iox-1, "%c",'#');
             }
             return;
@@ -156,15 +151,33 @@ void printVisible(Map *map, Player player, float y, float x) {
     }
 }
 
-void printMap(Map *map, Player player) {
+void printMap(Game game) {
     float x,y;
     int i;
 
-    for (i = 0; i < 360; i++) {
-        y=sin((float)i*0.01745f);
-        x=cos((float)i*0.01745f);
-        printVisible(map, player, y, x);
+    if (FOG_OF_WAR_ENABLED) {
+        for (i = 0; i < 360; i++) {
+            y=sin((float)i*0.01745f);
+            x=cos((float)i*0.01745f);
+            printVisible(game, y, x);
+        }
+    } else {
+        for (int i = 0; i < game->maxY; i++) {
+            for (int j = 0; j < game->maxX; j++) {
+                if (game->map[i][j].ch == '#'){
+                    attrset(COLOR_PAIR(1));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
+                else {
+                    attrset(COLOR_PAIR(2));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
+            }
+        }
     }
+
+    attrset(COLOR_PAIR(2));
+    mvprintw(game->player.p.y, game->player.p.x, "%c", game->player.character);
 }
 
 //#endif
