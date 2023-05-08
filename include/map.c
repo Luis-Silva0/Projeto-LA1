@@ -110,7 +110,11 @@ void printTile(Game game, int y, int x) {
         attrset(COLOR_PAIR(1));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
-    else {
+    else if (game->map[y][x].ch == 's'){
+        attrset(COLOR_PAIR(3));
+        mvprintw(y, x, "%c", game->map[y][x].ch);
+    }
+    else{
         attrset(COLOR_PAIR(2));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
@@ -166,6 +170,10 @@ void printMap(Game game) {
             for (int j = 0; j < game->maxX; j++) {
                 if (game->map[i][j].ch == '#'){
                     attrset(COLOR_PAIR(1));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
+                else if (game->map[i][j].ch == 's'){
+                    attrset(COLOR_PAIR(3));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
                 else {

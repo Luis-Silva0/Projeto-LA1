@@ -88,9 +88,7 @@ int movement(Game game) {
             switch (s)
             {
             case 'y':
-                s = 'q';
-                return 2;
-                break;
+                return 1;
             case 'n':
                 break;
             default:
@@ -101,7 +99,7 @@ int movement(Game game) {
             return 0;
         }
     }    
-    return 1;
+    return 2;
 }
 
 int play (Map *mapa, int maxX, int maxY) {
