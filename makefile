@@ -14,7 +14,7 @@ PROGRAM = game
 
 .DEFAULT_GOAL = build
 
-build: clean setup $(PROGRAM) run
+build: setup $(PROGRAM) run clean
 
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ -lncurses -lm
