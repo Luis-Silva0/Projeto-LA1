@@ -24,8 +24,8 @@ void game () {
         else {
             if (c == 0) {
             erase ();
-            mvprintw (y/2,(tx/2)-4,"%s","You Died");
-            mvprintw ((y/2)+1,(tx/2)-4,"%s","Press any key to leave");
+            mvprintw (y/2,(tx/2)-9,"%s","You Died");
+            mvprintw ((y/2)+1,(tx/2)-16,"%s","Press any key to leave");
             refresh();
             }
             else{

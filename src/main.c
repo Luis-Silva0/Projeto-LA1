@@ -8,15 +8,15 @@ int main () {
     init_pair(1,COLOR_WHITE,COLOR_WHITE);
     init_pair(2,COLOR_WHITE,COLOR_BLACK);
     noecho ();
+    curs_set (0);
     getmaxyx (stdscr,y,x);
-    mvprintw (0,0,"%s", "$ figlet JOGO");
-    WINDOW* win = newwin(10,30,(y/2)-5,(x/2)-15);
+    mvprintw (0,0,"%s", "figlet JOGO");
     char s = 'o';
     while (s != 'e') {
-        werase (win);
-        mvwprintw (win,3,6,"%s","Play (p)");
-        mvwprintw (win,7,6,"%s","Exit (e)");
-        wrefresh (win);
+        erase ();
+        mvprintw ((y/2)-2,(x/2)-9,"%s","Play (p)");
+        mvprintw ((y/2)+2,(x/2)-9,"%s","Exit (e)");
+        refresh ();
         s = (char) getchar ();
         if (s == 'p') {
             game ();
