@@ -25,7 +25,7 @@ Player characterselect () {
     case 's':
         erase ();
         mvprintw (1,1,"%s","Swordsman");
-        f = fopen ("/home/biokiller/Desktop/Universidade/LA1/Projeto/jogo/ASCIIart/sword.txt","r"); 
+        f = fopen ("ASCIIart/sword.txt","r");
         char s[30][19];
         for (int i = 0;i < 30;i++) {
             for (int j = 0;j < 19;j++) {
