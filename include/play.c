@@ -113,7 +113,7 @@ int movement(Game game) {
     return 2;
 }
 
-int play (Map *mapa, int maxX, int maxY) {
+int play (Map *mapa, int maxX, int maxY,Player player) {
     srand(clock());
 
     int myx, myy;
@@ -125,9 +125,12 @@ int play (Map *mapa, int maxX, int maxY) {
             myx = -1;
             myy = -1;
         }
+        else {
+            player.p.x = myx;
+            player.p.y = myy;
+        }
     }
-
-    Player player = {{myy,myx},'@',100};
+    
     Game game = (Game) malloc(sizeof(struct game));
     game->map = mapa;
     game->maxX = maxX;

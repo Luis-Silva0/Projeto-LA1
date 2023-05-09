@@ -16,11 +16,20 @@ int main () {
     while (s != 'e') {
         erase ();
         mvprintw ((y/2)-2,(x/2)-9,"%s","Play (p)");
+        mvprintw ((y/2),(x/2)-11,"%s","Settings (s)");
         mvprintw ((y/2)+2,(x/2)-9,"%s","Exit (e)");
         refresh ();
         s = (char) getchar ();
         if (s == 'p') {
             game ();
+        }
+        else {
+            if (s == 's') {
+                erase ();
+                mvprintw (y/2,x/2,"%s","There's no settings it's a terminal roguelike");
+                refresh ();
+                getchar ();
+            }
         }
     }
     endwin();
