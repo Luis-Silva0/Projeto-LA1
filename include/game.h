@@ -14,7 +14,7 @@ void game () {
     getmaxyx (stdscr,y,x);
     tx = x;
     x-=(x/10);
-    while (floor < 5) {
+    while (floor < 6) {
         erase ();
         mapa = createmap (x,y);
         c = play (mapa,x,y);
