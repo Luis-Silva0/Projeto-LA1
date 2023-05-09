@@ -95,6 +95,17 @@ int movement(Game game) {
                 break;
             }
         }
+        for (int i = -1; i <= 1; i++){
+            for (int j = -1; j <= 1; j++){
+                if (game->map[(game->player.p.y)+i][(game->player.p.x)+j].ch == 'G') {
+                game->player.health = 0;
+                break;
+                }
+            }
+            if(game->player.health == 0){
+                break;
+            }
+        }
         if (game->player.health == 0) {
             return 0;
         }
