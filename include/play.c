@@ -27,9 +27,16 @@ int movement(Game game) {
         case 'w':
             game->player.p.y--;
             if (game->map[game->player.p.y][game->player.p.x].walkable == false) {
-                game->player.p.y++;
-                attrset(COLOR_PAIR(2));
-                mvprintw(0,0,"%s","Wall here");
+                if (game->map[game->player.p.y][game->player.p.x].ch == '#') {
+                    game->player.p.y++;
+                    attrset(COLOR_PAIR(2));
+                    mvprintw(0,0,"%s","Wall here"); 
+                }
+                else {
+                    game->player.p.y++;
+                    /*Quando fizermos a mob list pomos aqui o dano ao mob*/
+                }
+                
             }
             else {
                 mvprintw(game->player.p.y, game->player.p.x, "%c", game->player.character);
@@ -79,6 +86,7 @@ int movement(Game game) {
             break;
         }
         printMap(game);
+        mvprintw (4,((game->maxX*10)/9) - 12,"%s %d","Health:",game->player.health);
         refresh ();
         if (game->map[game->player.p.y][game->player.p.x].ch == 's') {
             attrset(COLOR_PAIR(2));
@@ -98,15 +106,19 @@ int movement(Game game) {
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 if (game->map[(game->player.p.y)+i][(game->player.p.x)+j].ch == 'G') {
-                game->player.health = 0;
-                break;
+                    int d = rand () % 15;
+                    if (d < 4) {
+                        d = 0;
+                    }
+                    game->player.health -= d;
+                    break;
                 }
             }
-            if(game->player.health == 0){
+            if(game->player.health <= 0){
                 break;
             }
         }
-        if (game->player.health == 0) {
+        if (game->player.health <= 0) {
             return 0;
         }
     }    
