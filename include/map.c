@@ -10,27 +10,45 @@
 #include "map.h"
 #include "play.h"
 
-bool FOG_OF_WAR_ENABLED = true;
+bool FOG_OF_WAR_ENABLED = false;
 #include "map.h"
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
     temp.x = c1.x;
     temp.y = c1.y;
-    while (true) {
-        if (abs((temp.x - 1) - c2.x) < abs(temp.x - c2.x)) {
-            temp.x--;
+    srand(clock());
+    while (true) { 
+        if (rand()%2 == 1) {
+            if (abs((temp.x - 1) - c2.x) < abs(temp.x - c2.x)) {
+                temp.x--;
+            }
+            else if (abs((temp.x + 1) - c2.x) < abs(temp.x - c2.x)) {
+                temp.x++;
+            }
+            else if (abs((temp.y - 1) - c2.y) < abs(temp.y - c2.y)) {
+                temp.y--;
+            }
+            else if (abs((temp.y + 1) - c2.y) < abs(temp.y - c2.y)) {
+                temp.y++;
+            }
+            else break;
         }
-        else if (abs((temp.x + 1) - c2.x) < abs(temp.x - c2.x)) {
-            temp.x++;
+        else {
+            if (abs((temp.y - 1) - c2.y) < abs(temp.y - c2.y)) {
+                temp.y--;
+            }
+            else if (abs((temp.y + 1) - c2.y) < abs(temp.y - c2.y)) {
+                temp.y++;
+            }
+            else if (abs((temp.x - 1) - c2.x) < abs(temp.x - c2.x)) {
+                temp.x--;
+            }
+            else if (abs((temp.x + 1) - c2.x) < abs(temp.x - c2.x)) {
+                temp.x++;
+            }
+            else break;
         }
-        else if (abs((temp.y - 1) - c2.y) < abs(temp.y - c2.y)) {
-            temp.y--;
-        }
-        else if (abs((temp.y + 1) - c2.y) < abs(temp.y - c2.y)) {
-            temp.y++;
-        }
-        else break;
         m[temp.y][temp.x].ch = '.';
         m[temp.y][temp.x].walkable = true; 
         if (m[temp.y+1][temp.x-1].ch != '.') {
@@ -65,8 +83,8 @@ Map* createmap (int x, int y) {
         int bx,by,lx,ly;
         lx = (rand() % (int)(x*0.15)) + 6;
         ly = (rand() % (int)(y*0.15)) + 6;
-        bx = (rand() % (x-1)) + 1;
-        by = (rand() % (y-1)) + 1;
+        bx = (rand() % (x-2)) + 1;
+        by = (rand() % (y-2)) + 1;
         if (bx + lx >= x) bx = bx - lx;
         if (by + ly >= y) by = by - ly;
         rooms[acc].bx = bx;rooms[acc].by = by;rooms[acc].lx = lx;rooms[acc].ly = ly;

@@ -10,6 +10,7 @@ typedef struct pos {
 
 typedef struct class {
     int attack;
+    int defense;
     int range;
     int atkspd;
 } Class;
