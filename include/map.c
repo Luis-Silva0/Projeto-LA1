@@ -10,7 +10,6 @@
 #include "map.h"
 #include "play.h"
 
-bool FOG_OF_WAR_ENABLED = false;
 #include "map.h"
 
 void ligasalas (Position c1,Position c2,Map* m) {
@@ -18,7 +17,7 @@ void ligasalas (Position c1,Position c2,Map* m) {
     temp.x = c1.x;
     temp.y = c1.y;
     srand(clock());
-    while (true) { 
+    while (true) {
         if (rand()%2 == 1) {
             if (abs((temp.x - 1) - c2.x) < abs(temp.x - c2.x)) {
                 temp.x--;
@@ -113,12 +112,10 @@ Map* createmap (int x, int y) {
     for (int i = 0; i < salas; i++){
         int num_mob = rand()%4;
         while (num_mob != 0){
-            int randx, randy, fog;
-            fog = 0;
-            if (FOG_OF_WAR_ENABLED) fog = 1;
+            int randx, randy;
             randx = rand()%rooms[i].lx + rooms[i].bx + 1;
             randy = rand()%rooms[i].ly + rooms[i].by + 1;
-            create_mob(randy, randx, mapa, fog);
+            create_mob(randy, randx, mapa);
             num_mob--;
         }
     }
@@ -191,13 +188,7 @@ void printMap(Game game) {
     float x,y;
     int i;
 
-    if (FOG_OF_WAR_ENABLED) {
-        for (i = 0; i < 360; i++) {
-            y=sin((float)i*0.01745f);
-            x=cos((float)i*0.01745f);
-            printVisible(game, y, x);
-        }
-    } else {
+    if (game->godMode) {
         for (int i = 0; i < game->maxY; i++) {
             for (int j = 0; j < game->maxX; j++) {
                 if (game->map[i][j].ch == '#'){
@@ -213,6 +204,12 @@ void printMap(Game game) {
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
             }
+        }
+    } else {
+        for (i = 0; i < 360; i++) {
+            y=sin((float)i*0.01745f);
+            x=cos((float)i*0.01745f);
+            printVisible(game, y, x);
         }
     }
 

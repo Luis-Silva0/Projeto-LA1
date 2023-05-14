@@ -81,7 +81,11 @@ int movement(Game game) {
             break;
         case 'k':
             game->player.health = 0;
-            break;     
+            break;
+        case 'i':
+            game->godMode = !game->godMode;
+            mvprintw (0,0,"%s","Baby Mode Activated");
+            break;
         default:
             break;
         }
@@ -148,6 +152,7 @@ int play (Map *mapa, int maxX, int maxY,Player player) {
     game->maxX = maxX;
     game->maxY = maxY;
     game->player = player;
+    game->godMode = false;
 
     printMap(game);
     refresh ();

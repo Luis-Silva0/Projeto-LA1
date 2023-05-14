@@ -8,7 +8,7 @@ typedef struct pos {
     int x;
 } Position;
 
-typedef struct class {
+typedef struct classe {
     int attack;
     int defense;
     int range;

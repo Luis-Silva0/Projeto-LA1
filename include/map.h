@@ -16,6 +16,7 @@ typedef struct game {
     Map *map;
     int maxX;
     int maxY;
+    bool godMode;
 
     Player player;
 } *Game;
