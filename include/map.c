@@ -10,7 +10,7 @@
 #include "map.h"
 #include "play.h"
 
-#include "map.h"
+bool FOG_OF_WAR_ENABLED = false;
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
