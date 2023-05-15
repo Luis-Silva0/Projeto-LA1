@@ -8,7 +8,7 @@
 #include "map.h"
 
 int movement(Game game) {
-    int tx,ty,t;
+    int tx,ty,t,walk_mob;
     t = 0;
     char s = '1';
     while (s != 'q') {
@@ -17,6 +17,7 @@ int movement(Game game) {
                 mvprintw (0, i, "%s", " ");
             }
         }
+        walk_mob = rand()%3;
         t = time(0);
         s = (char) getchar();
         tx = game->player.p.x;
@@ -89,6 +90,7 @@ int movement(Game game) {
         default:
             break;
         }
+        mob_movement(game->player.p, game->map, walk_mob);
         printMap(game);
         mvprintw (4,((game->maxX*10)/9) - 12,"%s %d","Health:",game->player.health);
         refresh ();
