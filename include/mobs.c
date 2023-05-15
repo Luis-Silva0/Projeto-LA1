@@ -31,7 +31,7 @@ void max_update(int max){
 
 void mob_list (Mob goblin){
     if (l_goblin == NULL){
-        l_goblin = malloc(sizeof(struct Lista_mobs) * 20);
+        l_goblin = malloc(sizeof(struct Lista_mobs) * 30);
         l_goblin->atual = goblin;
         l_goblin->ant = NULL;
         l_goblin->prox = NULL;

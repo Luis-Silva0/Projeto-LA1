@@ -10,7 +10,7 @@
 #include "map.h"
 #include "play.h"
 
-bool FOG_OF_WAR_ENABLED = false;
+bool FOG_OF_WAR_ENABLED = true;
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
@@ -112,10 +112,11 @@ Map* createmap (int x, int y) {
     for (int i = 0; i < salas; i++){
         int num_mob = rand()%4;
         while (num_mob != 0){
+            int fog = 1;
             int randx, randy;
             randx = rand()%rooms[i].lx + rooms[i].bx + 1;
             randy = rand()%rooms[i].ly + rooms[i].by + 1;
-            create_mob(randy, randx, mapa);
+            create_mob(randy, randx, mapa, fog);
             num_mob--;
         }
     }
