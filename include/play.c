@@ -116,7 +116,10 @@ int movement(Game game) {
                     if (d < 4) {
                         d = 0;
                     }
-                    game->player->health -= d;
+                    d = d - ((int) game->player->classe.defense*0.75);
+                    if (d >= 0) {
+                        game->player->health -= d;
+                    }                    
                     break;
                 }
             }
