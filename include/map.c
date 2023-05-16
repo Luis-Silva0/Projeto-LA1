@@ -109,14 +109,16 @@ Map* createmap (int x, int y) {
             }
         }
     }
-    for (int i = 0; i < salas; i++){
-        int num_mob = rand()%4;
+        for (int i = 0; i < salas; i++){
+        int num_mob = rand()%3;
         while (num_mob != 0){
             int fog = 1;
             int randx, randy;
             randx = rand()%rooms[i].lx + rooms[i].bx + 1;
             randy = rand()%rooms[i].ly + rooms[i].by + 1;
-            create_mob(randy, randx, mapa, fog);
+            if (mapa[randy][randx].walkable == true){
+                create_mob(randy, randx, mapa, fog);
+            }
             num_mob--;
         }
     }
