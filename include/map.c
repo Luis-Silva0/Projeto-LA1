@@ -154,8 +154,8 @@ void printVisible(Game game, float y, float x) {
     int i;
     float ox,oy;
 
-    oy = (float)game->player.p.y+0.5f;
-    ox = (float)game->player.p.x+0.5f;
+    oy = (float)game->player->p.y+0.5f;
+    ox = (float)game->player->p.x+0.5f;
 
     for(i = 0; i < 10; i++) {
         int ioy = (int)oy;
@@ -215,7 +215,7 @@ void printMap(Game game) {
     }
 
     attrset(COLOR_PAIR(2));
-    mvprintw(game->player.p.y, game->player.p.x, "%c", game->player.character);
+    mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
 }
 
 //#endif

@@ -18,7 +18,7 @@ typedef struct game {
     int maxY;
     bool godMode;
 
-    Player player;
+    Player *player;
 } *Game;
 
 Salas rooms;

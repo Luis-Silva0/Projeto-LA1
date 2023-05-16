@@ -184,7 +184,7 @@ void game () {
     while (floor < 6) {
         erase ();
         mapa = createmap (x,y);
-        c = play (mapa,x,y,player);
+        c = play (mapa,x,y,&player);
         if (c == 1) {
             floor++;
         }
