@@ -47,7 +47,7 @@ Player characterselect () {
                 r.p.x = -1;
                 r.p.y = -1;
                 r.character = '@';
-                r.health = 1000000;
+                r.health = 100;
                 r.classe.attack = 10;
                 r.classe.defense = 6;
                 r.classe.range = 2;
