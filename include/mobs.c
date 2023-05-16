@@ -136,4 +136,7 @@ void mob_movement (Position pos_p, Map *m, int walk){
     while (l_goblin->ant != NULL){
         l_goblin = l_goblin->ant;
     }
+    // se os mobs estiverem a 4 blocos de raio do player, movem-se para ele;
+    // escolher o caminho mais curto;
+    // verificar se a superficie é walkable;
 }
