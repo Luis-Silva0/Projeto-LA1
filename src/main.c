@@ -15,6 +15,21 @@ int main () {
     char s = 'o';
     while (s != 'e') {
         erase ();
+        FILE *f;
+        f = fopen ("ASCIIart/Game.txt","r+");
+        char n[5][29];
+        for (int i = 0;i < 5;i++) {
+            for (int j = 0;j < 29;j++) {
+                char c = (char) fgetc (f);
+                n[i][j] = c;
+            }
+        }
+        fclose (f);
+        for (int i = 0;i < 5;i++) {
+            for (int j = 0;j < 29;j++) {
+                mvprintw (2+i,(x/2)-18+j,"%c",n[i][j]);
+            }
+        }
         mvprintw ((y/2)-2,(x/2)-9,"%s","Play (p)");
         mvprintw ((y/2),(x/2)-11,"%s","Settings (s)");
         mvprintw ((y/2)+2,(x/2)-9,"%s","Exit (e)");
