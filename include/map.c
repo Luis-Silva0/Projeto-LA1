@@ -1,5 +1,3 @@
-//#ifndef MAP_H
-//#define MAP_H
 #include "mobs.c"
 #include <time.h>
 #include <ncurses.h>
@@ -116,12 +114,12 @@ Map* createmap (int x, int y) {
         }
     }
     for (int i = 0; i < salas; i++){
-        int num_mob = rand()%4;
+        int num_mob = rand()%3;
         while (num_mob != 0){
             int fog = 1;
             int randx, randy;
-            randx = rand()%rooms[i].lx + rooms[i].bx + 1;
-            randy = rand()%rooms[i].ly + rooms[i].by + 1;
+            randx = (rand()%(rooms[i].lx-1)) + rooms[i].bx + 1;
+            randy = (rand()%(rooms[i].ly-1)) + rooms[i].by + 1;
             if (mapa[randy][randx].ch == '.' || mapa[randy][randx].ch == '+'){
                 create_mob(randy, randx, mapa, fog);
             }
@@ -226,4 +224,4 @@ void printMap(Game game) {
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
 }
 
-//#endif
+
