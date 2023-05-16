@@ -74,6 +74,12 @@ Map* createmap (int x, int y) {
     for (int i = 0;i <= y;i++) {
         mapa[i] = calloc (x+1,sizeof(char)+sizeof(bool));
     }
+    for (int i = 0;i <= y;i++) {
+        for (int j = 0;j <= x;j++) {
+            mapa[i][j].ch = ' ';
+            mapa[i][j].walkable = false;
+        }
+    }
     srand(clock ());
     int salas = (rand() % 10) + 11;
     int acc = 0;
