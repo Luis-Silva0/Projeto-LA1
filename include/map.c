@@ -115,14 +115,14 @@ Map* createmap (int x, int y) {
             }
         }
     }
-        for (int i = 0; i < salas; i++){
-        int num_mob = rand()%3;
+    for (int i = 0; i < salas; i++){
+        int num_mob = rand()%4;
         while (num_mob != 0){
             int fog = 1;
             int randx, randy;
             randx = rand()%rooms[i].lx + rooms[i].bx + 1;
             randy = rand()%rooms[i].ly + rooms[i].by + 1;
-            if (mapa[randy][randx].walkable == true){
+            if (mapa[randy][randx].ch == '.' || mapa[randy][randx].ch == '+'){
                 create_mob(randy, randx, mapa, fog);
             }
             num_mob--;
@@ -136,9 +136,9 @@ Map* createmap (int x, int y) {
         center2.y = rooms[i+1].by + rooms[i+1].ly/2;
         ligasalas(center1,center2,mapa);
         if (i == salas-2) {
-                    mapa[center1.y][center1.x].ch = 's';
-                    mapa[center2.y][center2.x].walkable = true;
-                }
+            mapa[center1.y][center1.x].ch = 's';
+            mapa[center2.y][center2.x].walkable = true;
+        }
     }
     return mapa;
 }

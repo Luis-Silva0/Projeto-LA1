@@ -93,6 +93,7 @@ int movement(Game game) {
         mob_movement(game->player->p, game->map, walk_mob);
         printMap(game);
         mvprintw (4,((game->maxX*10)/9) - 12,"%s %d","Health:",game->player->health);
+        radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
             attrset(COLOR_PAIR(2));

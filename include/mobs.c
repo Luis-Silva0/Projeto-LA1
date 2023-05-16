@@ -83,6 +83,19 @@ void create_mob (int pos_y, int pos_x, Map *m, int fog){
     mob_list(goblin);
 }
 
+void radar (int x, Position pos){
+    int y = 6;
+    while (l_goblin->prox != NULL){
+        mvprintw(y,x,"G = %d %d", (l_goblin->atual->pos_m.x), (l_goblin->atual->pos_m.y));
+        y++;
+        l_goblin = l_goblin->prox;
+    }
+    while (l_goblin->ant != NULL){
+        l_goblin = l_goblin->ant;
+    }
+    mvprintw(5,x,"@ = %d %d ", (pos.x), (pos.y));
+}
+
 int mob_move_space(int pos_p, int pos_m){
     if (pos_p < pos_m){
         return pos_m - 1;
@@ -123,7 +136,4 @@ void mob_movement (Position pos_p, Map *m, int walk){
     while (l_goblin->ant != NULL){
         l_goblin = l_goblin->ant;
     }
-    // se os mobs estiverem a 3 blocos de raio do player, movem-se para ele;
-    // escolher o caminho mais curto;
-    // verificar se a superficie é walkable;
 }
