@@ -6,8 +6,8 @@
 
 void check_inv (Player *p){
     WINDOW *win = newwin (15,70,20,80);
-    int mx, my;
-    getmaxyx(win, my, mx);
+    int my;
+    my = getmaxy (win);
     box (win,'|','-');
     mvwprintw(win, 1, 1, "Potions -> x%d", p->bag.potion);
     mvwprintw(win, 2, 1, "Current Weapon -> %s", p->bag.weapon);

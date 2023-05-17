@@ -24,7 +24,6 @@ int movement(Game game) {
             }
         }
         walk_mob = rand()%4;
-        move_mobs(game,&mobs,walk_mob);
         t = time(0);
         s = (char) getchar();
         tx = game->player->p.x;
@@ -40,16 +39,13 @@ int movement(Game game) {
                     game->player->p.y++;
                     attrset(COLOR_PAIR(2));
                     mvprintw(0,0,"%s","Wall here"); 
-                }
-                else {
-                    game->player->p.y++;
-                    /*Quando fizermos a mob list pomos aqui o dano ao mob*/
-                }
-                
+                }                
             }
             else {
                 mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
                 mvprintw(ty,tx,"%c",game->map[ty][tx].ch);
+                move_mobs(game,&mobs,walk_mob);
+                combat(&mobs,game->player);
                 }
             break;
         case 's':
@@ -63,6 +59,8 @@ int movement(Game game) {
             else {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
+                move_mobs(game,&mobs,walk_mob);
+                combat(&mobs,game->player);
                 }
             break;
         case 'a':
@@ -76,6 +74,7 @@ int movement(Game game) {
             else {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
+                move_mobs(game,&mobs,walk_mob);
                 }
             break;
         case 'd':
@@ -89,6 +88,8 @@ int movement(Game game) {
             else {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
+                move_mobs(game,&mobs,walk_mob);
+                combat(&mobs,game->player);
                 }
             break;
         case 'k':
@@ -100,7 +101,6 @@ int movement(Game game) {
         case 'i' :
             check_inv(game->player);
             s = getchar();
-            continue;
             break;
         case 'p' :
             game->player->bag.potion --;
@@ -115,9 +115,12 @@ int movement(Game game) {
 //        mob_movement(game->player->p, game->map, walk_mob);
         printMap(game);
         if (game->godMode) {
+            attron (COLOR_PAIR(6));
             mvprintw (0,0,"%s","Baby Mode Activated");
+            attroff (COLOR_PAIR(6));
         }
-        mvprintw (4,((game->maxX*10)/9) - 12,"%s %d","Health:",game->player->health);
+        mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
+        mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
@@ -135,7 +138,6 @@ int movement(Game game) {
                 break;
             }
         }
-        combat(&mobs,game->player);
         if (game->player->health <= 0) {
             return 0;
         }
