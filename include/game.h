@@ -52,7 +52,6 @@ Player characterselect () {
                 r.classe.attack = 10;
                 r.classe.defense = 6;
                 r.classe.range = 2;
-                r.classe.atkspd = 3;
                 r.bag.potion = 5;
                 r.bag.weapon = "Basic Sword";
                 r.bag.armor = "Iron Set";
@@ -61,7 +60,6 @@ Player characterselect () {
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
-                mvprintw ((y/2)+6,(x/2) - 29,"%s %d","Attack Speed: ",r.classe.atkspd);
                 mvprintw (1,1,"%s","Press [BACKSPACE] to choose another character or any other key to continue");        
                 break;
 
@@ -91,7 +89,6 @@ Player characterselect () {
                 r.classe.attack = 8;
                 r.classe.defense = 3;
                 r.classe.range = 4;
-                r.classe.atkspd = 2;
                 r.bag.potion = 5;
                 r.bag.weapon = "Basic Bow";
                 r.bag.armor = "Cloak";
@@ -100,7 +97,6 @@ Player characterselect () {
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
-                mvprintw ((y/2)+6,(x/2) - 29,"%s %d","Attack Speed: ",r.classe.atkspd);
                 mvprintw (1,1,"%s","Press [BACKSPACE] to choose another character or any other key to continue");        
                 break;
 
@@ -130,7 +126,6 @@ Player characterselect () {
                 r.classe.attack = 4;
                 r.classe.defense = 3;
                 r.classe.range = 4;
-                r.classe.atkspd = 5;
                 r.bag.potion = 5;
                 r.bag.weapon = "Glock-17";
                 r.bag.armor = "Military Set";
@@ -139,7 +134,6 @@ Player characterselect () {
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
-                mvprintw ((y/2)+6,(x/2) - 29,"%s %d","Attack Speed: ",r.classe.atkspd);
                 mvprintw (1,1,"%s","Press [BACKSPACE] to choose another character or any other key to continue");        
                 break;
 
@@ -169,7 +163,6 @@ Player characterselect () {
                 r.classe.attack = 16;
                 r.classe.defense = 10;
                 r.classe.range = 2;
-                r.classe.atkspd = 1;
                 r.bag.potion = 5;
                 r.bag.weapon = "Basic Axe";
                 r.bag.armor = "Viking Cloths";
@@ -178,7 +171,6 @@ Player characterselect () {
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
-                mvprintw ((y/2)+6,(x/2) - 29,"%s %d","Attack Speed: ",r.classe.atkspd);
                 mvprintw (1,1,"%s","Press [BACKSPACE] to choose another character or any other key to continue");        
                 break;
         

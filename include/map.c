@@ -74,7 +74,7 @@ Map* createmap (int x, int y) {
     }
     for (int i = 0;i <= y;i++) {
         for (int j = 0;j <= x;j++) {
-            mapa[i][j].ch = ' ';
+            mapa[i][j].ch = ':';
             mapa[i][j].walkable = false;
         }
     }
@@ -113,7 +113,7 @@ Map* createmap (int x, int y) {
             }
         }
     }
-    for (int i = 0; i < salas; i++){
+/*    for (int i = 0; i < salas; i++){
         int num_mob = rand()%3;
         while (num_mob != 0){
             int fog = 1;
@@ -125,7 +125,7 @@ Map* createmap (int x, int y) {
             }
             num_mob--;
         }
-    }
+    }*/
     Position center1,center2;
     for (int i = 0;i < salas-1;i++) {
         center1.x = rooms[i].bx + rooms[i].lx/2;
@@ -148,6 +148,10 @@ void printTile(Game game, int y, int x) {
     }
     else if (game->map[y][x].ch == 's'){
         attrset(COLOR_PAIR(3));
+        mvprintw(y, x, "%c", game->map[y][x].ch);
+    }
+    else if (game->map[y][x].ch == ':'){
+        attrset(COLOR_PAIR(5));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
     else{
@@ -204,6 +208,10 @@ void printMap(Game game) {
                 }
                 else if (game->map[i][j].ch == 's'){
                     attrset(COLOR_PAIR(3));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
+                else if (game->map[i][j].ch == ':'){
+                    attrset(COLOR_PAIR(5));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
                 else {

@@ -7,19 +7,24 @@
 
 #include "play.h"
 #include "map.h"
+#include "mobs2.c"
 
 int movement(Game game) {
     int tx,ty,t;
     int walk_mob;
     t = 0;
     char s = '1';
+    Mob_list mobs;
+    mobs = create_mob2(game->map,game->maxX,game->maxY,8);
     while (s != 'q') {
+        show_mobs(mobs,((game->maxX*10)/9) - 15);     
         if (t != time(0)) {
             for (int i = 0; i < 57; i++) {
                 mvprintw (0, i, "%s", " ");
             }
         }
         walk_mob = rand()%4;
+        move_mobs(game,&mobs,walk_mob);
         t = time(0);
         s = (char) getchar();
         tx = game->player->p.x;
@@ -27,7 +32,8 @@ int movement(Game game) {
         erase();
         switch (s)
         {
-        case 'w':
+        case 'w' :
+        case '8' :
             game->player->p.y--;
             if (game->map[game->player->p.y][game->player->p.x].walkable == false) {
                 if (game->map[game->player->p.y][game->player->p.x].ch == '#') {
@@ -47,6 +53,7 @@ int movement(Game game) {
                 }
             break;
         case 's':
+        case '2':
             game->player->p.y++;
             if (game->map[game->player->p.y][game->player->p.x].walkable == false) {
                 game->player->p.y--;
@@ -59,6 +66,7 @@ int movement(Game game) {
                 }
             break;
         case 'a':
+        case '4':
             game->player->p.x--;
             if (game->map[game->player->p.y][game->player->p.x].walkable == false) {
                 game->player->p.x++;
@@ -71,6 +79,7 @@ int movement(Game game) {
                 }
             break;
         case 'd':
+        case '6':
             game->player->p.x++;
             if (game->map[game->player->p.y][game->player->p.x].walkable == false) {
                 game->player->p.x--;
@@ -103,7 +112,7 @@ int movement(Game game) {
         default:
             break;
         }
-        mob_movement(game->player->p, game->map, walk_mob);
+//        mob_movement(game->player->p, game->map, walk_mob);
         printMap(game);
         if (game->godMode) {
             mvprintw (0,0,"%s","Baby Mode Activated");
@@ -126,24 +135,7 @@ int movement(Game game) {
                 break;
             }
         }
-        for (int i = -1; i <= 1; i++){
-            for (int j = -1; j <= 1; j++){
-                if (game->map[(game->player->p.y)+i][(game->player->p.x)+j].ch == 'G') {
-                    int d = rand () % 15;
-                    if (d < 4) {
-                        d = 0;
-                    }
-                    d = d - ((int) game->player->classe.defense*0.75);
-                    if (d >= 0) {
-                        game->player->health -= d;
-                    }                    
-                    break;
-                }
-            }
-            if(game->player->health <= 0){
-                break;
-            }
-        }
+        combat(&mobs,game->player);
         if (game->player->health <= 0) {
             return 0;
         }

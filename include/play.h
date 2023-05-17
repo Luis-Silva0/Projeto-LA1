@@ -12,7 +12,6 @@ typedef struct classe {
     int attack;
     int defense;
     int range;
-    int atkspd;
 } Class;
 
 typedef struct inventory{
