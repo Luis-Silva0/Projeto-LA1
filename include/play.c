@@ -170,6 +170,9 @@ int play (Map *mapa, int maxX, int maxY,Player *player) {
     game->player = player;
     game->godMode = false;
 
+        mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
+        mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
+
     printMap(game);
     refresh ();
 
