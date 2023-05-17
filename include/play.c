@@ -9,13 +9,13 @@
 #include "map.h"
 #include "mobs2.c"
 
-int movement(Game game) {
+int movement(Game game,int floor) {
     int tx,ty,t;
     int walk_mob;
     t = 0;
     char s = '1';
     Mob_list mobs;
-    mobs = create_mob2(game->map,game->maxX,game->maxY,8);
+    mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor);
     while (s != 'q') {
         show_mobs(mobs,((game->maxX*10)/9) - 15,game);     
         if (t != time(0)) {
@@ -145,7 +145,7 @@ int movement(Game game) {
     return 2;
 }
 
-int play (Map *mapa, int maxX, int maxY,Player *player) {
+int play (Map *mapa, int maxX, int maxY,Player *player,int floor) {
     srand(clock());
 
     int myx, myy;
@@ -170,13 +170,13 @@ int play (Map *mapa, int maxX, int maxY,Player *player) {
     game->player = player;
     game->godMode = false;
 
-        mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
-        mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
+    mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
+    mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
 
     printMap(game);
     refresh ();
 
-    int r = movement(game);
+    int r = movement(game,floor);
 
     return r;
 }

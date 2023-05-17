@@ -140,7 +140,7 @@ void combat (Mob_list *l,Player *p) {
     l = head;
 }
 
-Mob_list create_mob2 (Map *m,int x,int y,int n) {
+Mob_list create_mob2 (Map *m,int x,int y,int n,int floor) {
     Mob_list ml = malloc (sizeof(struct mob_list));
     Mob_list *temp = &ml;
     int i = 0;
@@ -162,20 +162,20 @@ Mob_list create_mob2 (Map *m,int x,int y,int n) {
         int p = rand()%20;
         if (p < 9) {
             (*temp)->m.mob_char = 'D';
-            (*temp)->m.dano = rand()%6 + 5;
+            (*temp)->m.dano = rand()%6 + 5 + (floor * 3);
             (*temp)->m.vida = 20;
             (*temp)->m.range = 3;
         }
         else {
-            if (p >= 9 && p < 19) {
+            if (p >= 9 && p < 19-floor) {
                 (*temp)->m.mob_char = 'T';
-                (*temp)->m.dano = rand()%5 + 8;
+                (*temp)->m.dano = rand()%5 + 8 + (floor * 3);
                 (*temp)->m.vida = 10;
                 (*temp)->m.range = 2;
             }
-            else {
+            else if(p >= (19-floor)){
                 (*temp)->m.mob_char = 'H';
-                (*temp)->m.dano = rand()%11 + 15;
+                (*temp)->m.dano = rand()%11 + 15 + (floor * 3);
                 (*temp)->m.vida = 50;
                 (*temp)->m.range = 3;
             }
