@@ -16,21 +16,31 @@ typedef struct mob_list {
     struct mob_list *prox;
 } *Mob_list;
 
-void show_mobs (Mob_list l,int x){
-    int y = 7;
+void show_mobs (Mob_list l,int x,Game game){
+    int y = 8;
     while (l) {
-        mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);
-        refresh();
-        init_pair(4,COLOR_RED,COLOR_YELLOW);
-        int tempx,tempy;
-        tempx = l->m.pos_x;
-        tempy = l->m.pos_y;
-        attron (COLOR_PAIR(4));
-        mvprintw (tempy,tempx,"%c",l->m.mob_char);
-        attroff (COLOR_PAIR(4));
-        refresh();
+        if (l->m.vida > 0) {
+            mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);
+            refresh();
+            init_pair(4,COLOR_RED,COLOR_YELLOW);
+            int tempx,tempy;
+            tempx = l->m.pos_x;
+            tempy = l->m.pos_y;
+            if ((tempx <= game->player->p.x + 7 && tempx >= game->player->p.x - 7) && (tempy <= game->player->p.y + 7 && tempy >= game->player->p.y - 7) && !game->godMode) {
+                attron (COLOR_PAIR(4));
+                mvprintw (tempy,tempx,"%c",l->m.mob_char);
+                attroff (COLOR_PAIR(4));
+                refresh();
+            }
+            else if (game->godMode) {
+                attron (COLOR_PAIR(4));
+                mvprintw (tempy,tempx,"%c",l->m.mob_char);
+                attroff (COLOR_PAIR(4));
+                refresh();
+            }
+            y++;
+        }
         l = l->prox;
-        y++;
     }
 }
 
@@ -116,14 +126,14 @@ void combat (Mob_list *l,Player *p) {
     Mob_list *head;
     head = &(*l);
     while (*l) {
-        if ((*l)->m.range >= abs((*l)->m.pos_x - (*p).p.x) && (*l)->m.range >= abs((*l)->m.pos_y - (*p).p.y)) {
-            (*p).health -= ((*l)->m.dano - (*p).classe.defense);
-            (*l)->m.vida -= (*p).classe.attack;
-        }
-        if ((*p).classe.range >= abs((*l)->m.pos_x - (*p).p.x) && (*p).classe.range >= abs((*l)->m.pos_y - (*p).p.y)) {
-            (*p).health -= ((*l)->m.dano - (*p).classe.defense);
-            (*l)->m.vida -= (*p).classe.attack;
-
+        if ((*l)->m.vida > 0) {
+            if ((*l)->m.range >= abs((*l)->m.pos_x - (*p).p.x) && (*l)->m.range >= abs((*l)->m.pos_y - (*p).p.y)) {
+                if ((*l)->m.dano - (*p).classe.defense >= 0) {
+                    (*p).health -= ((*l)->m.dano - (*p).classe.defense);            }
+            }
+            if ((*p).classe.range >= abs((*l)->m.pos_x - (*p).p.x) && (*p).classe.range >= abs((*l)->m.pos_y - (*p).p.y)) {
+                (*l)->m.vida -= (*p).classe.attack;
+            }
         }
         l = &((*l)->prox);
     }
@@ -161,13 +171,13 @@ Mob_list create_mob2 (Map *m,int x,int y,int n) {
                 (*temp)->m.mob_char = 'T';
                 (*temp)->m.dano = rand()%5 + 8;
                 (*temp)->m.vida = 10;
-                (*temp)->m.range = 1;
+                (*temp)->m.range = 2;
             }
             else {
                 (*temp)->m.mob_char = 'H';
                 (*temp)->m.dano = rand()%11 + 15;
                 (*temp)->m.vida = 50;
-                (*temp)->m.range = 2;
+                (*temp)->m.range = 3;
             }
         }
     temp = &((*temp)->prox);

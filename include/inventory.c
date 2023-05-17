@@ -5,10 +5,14 @@
 #include "play.h"
 
 void check_inv (Player *p){
-    WINDOW *win = newwin (15,70,20,80);
+    int x,y;
+    getmaxyx(stdscr,y,x);
+    WINDOW *win = newwin (16,70,y/2-8,x/2-35);
     int my;
     my = getmaxy (win);
+    wattrset(win,COLOR_PAIR(4));
     box (win,'|','-');
+    wattrset (win,COLOR_PAIR(2));
     mvwprintw(win, 1, 1, "Potions -> x%d", p->bag.potion);
     mvwprintw(win, 2, 1, "Current Weapon -> %s", p->bag.weapon);
     mvwprintw(win, 3, 1, "Current Armor -> %s", p->bag.armor);

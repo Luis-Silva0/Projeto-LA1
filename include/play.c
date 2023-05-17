@@ -17,7 +17,7 @@ int movement(Game game) {
     Mob_list mobs;
     mobs = create_mob2(game->map,game->maxX,game->maxY,8);
     while (s != 'q') {
-        show_mobs(mobs,((game->maxX*10)/9) - 15);     
+        show_mobs(mobs,((game->maxX*10)/9) - 15,game);     
         if (t != time(0)) {
             for (int i = 0; i < 57; i++) {
                 mvprintw (0, i, "%s", " ");
