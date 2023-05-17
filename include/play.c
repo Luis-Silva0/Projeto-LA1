@@ -1,4 +1,5 @@
 #include "map.c"
+#include "inventory.c"
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
@@ -8,7 +9,8 @@
 #include "map.h"
 
 int movement(Game game) {
-    int tx,ty,t,walk_mob;
+    int tx,ty,t;
+    int walk_mob;
     t = 0;
     char s = '1';
     while (s != 'q') {
@@ -83,17 +85,31 @@ int movement(Game game) {
         case 'k':
             game->player->health = 0;
             break;
-        case 'i':
+        case 'g':
             game->godMode = !game->godMode;
-            mvprintw (0,0,"%s","Baby Mode Activated");
+            break;
+        case 'i' :
+            check_inv(game->player);
+            s = getchar();
+            continue;
+            break;
+        case 'p' :
+            game->player->bag.potion --;
+            game->player->health += 25;
+            if (game->player->health > 100){
+                game->player->health = 100;
+            }
             break;
         default:
             break;
         }
         mob_movement(game->player->p, game->map, walk_mob);
         printMap(game);
+        if (game->godMode) {
+            mvprintw (0,0,"%s","Baby Mode Activated");
+        }
         mvprintw (4,((game->maxX*10)/9) - 12,"%s %d","Health:",game->player->health);
-        radar (((game->maxX*10)/9) - 12, game->player->p);
+        //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
             attrset(COLOR_PAIR(2));

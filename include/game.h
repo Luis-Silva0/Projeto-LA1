@@ -53,6 +53,11 @@ Player characterselect () {
                 r.classe.defense = 6;
                 r.classe.range = 2;
                 r.classe.atkspd = 3;
+                r.bag.potion = 5;
+                r.bag.weapon = "Basic Sword";
+                r.bag.armor = "Iron Set";
+                r.bag.weapon_dmg = r.classe.attack;
+                r.bag.armor_def = r.classe.defense;
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
@@ -87,6 +92,11 @@ Player characterselect () {
                 r.classe.defense = 3;
                 r.classe.range = 4;
                 r.classe.atkspd = 2;
+                r.bag.potion = 5;
+                r.bag.weapon = "Basic Bow";
+                r.bag.armor = "Cloak";
+                r.bag.weapon_dmg = r.classe.attack;
+                r.bag.armor_def = r.classe.defense;
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
@@ -121,6 +131,11 @@ Player characterselect () {
                 r.classe.defense = 3;
                 r.classe.range = 4;
                 r.classe.atkspd = 5;
+                r.bag.potion = 5;
+                r.bag.weapon = "Glock-17";
+                r.bag.armor = "Military Set";
+                r.bag.weapon_dmg = r.classe.attack;
+                r.bag.armor_def = r.classe.defense;
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
@@ -155,6 +170,11 @@ Player characterselect () {
                 r.classe.defense = 10;
                 r.classe.range = 2;
                 r.classe.atkspd = 1;
+                r.bag.potion = 5;
+                r.bag.weapon = "Basic Axe";
+                r.bag.armor = "Viking Cloths";
+                r.bag.weapon_dmg = r.classe.attack;
+                r.bag.armor_def = r.classe.defense;
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
                 mvprintw ((y/2),(x/2) - 29,"%s %d","Defense: ",r.classe.defense);
                 mvprintw ((y/2)+3,(x/2) - 29,"%s %d","Range: ",r.classe.range);
