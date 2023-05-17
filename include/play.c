@@ -17,7 +17,7 @@ int movement(Game game,int floor) {
     Mob_list mobs;
     mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor);
     while (s != 'q') {
-        show_mobs(mobs,((game->maxX*10)/9) - 15,game);     
+        show_mobs(mobs,((game->maxX*10)/9) - 16,game);     
         if (t != time(0)) {
             for (int i = 0; i < 57; i++) {
                 mvprintw (0, i, "%s", " ");
@@ -119,8 +119,8 @@ int movement(Game game,int floor) {
             mvprintw (0,0,"%s","Baby Mode Activated");
             attroff (COLOR_PAIR(6));
         }
-        mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
-        mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
+        mvprintw (2,((game->maxX*10)/9) - 16,"%s %d","Health:",game->player->health);
+        mvprintw (3,((game->maxX*10)/9) - 16,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
@@ -170,8 +170,8 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor) {
     game->player = player;
     game->godMode = false;
 
-    mvprintw (4,((game->maxX*10)/9) - 15,"%s %d","Health:",game->player->health);
-    mvprintw (5,((game->maxX*10)/9) - 15,"%s %d","Money:",game->player->money);
+    mvprintw (2,((game->maxX*10)/9) - 16,"%s %d","Health:",game->player->health);
+    mvprintw (3,((game->maxX*10)/9) - 16,"%s %d","Money:",game->player->money);
 
     printMap(game);
     refresh ();

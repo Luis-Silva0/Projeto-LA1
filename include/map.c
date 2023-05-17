@@ -241,7 +241,12 @@ void printMap(Game game) {
 
     attrset(COLOR_PAIR(2));
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
-    mvprintw(6, (((game->maxX*10)/9) - 15), "S -> %d %d", sx, sy);
+    for(int i = 0; i < game->maxY; i++){
+        mvprintw(i, (((game->maxX*10)/9) - 23), "|");
+    }
+    mvprintw(4, (((game->maxX*10)/9) - 22), "----------------------");
+    mvprintw(5, (((game->maxX*10)/9) - 16), "S -> %d %d", sx, sy);
+    mvprintw(6, (((game->maxX*10)/9) - 22), "----------------------"); 
 }
 
 

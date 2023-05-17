@@ -128,7 +128,7 @@ Player characterselect () {
                 r.classe.range = 4;
                 r.bag.potion = 5;
                 r.bag.weapon = "Glock-17";
-                r.bag.armor = "Military Set";
+                r.bag.armor = "Military Uniform";
                 r.bag.weapon_dmg = r.classe.attack;
                 r.bag.armor_def = r.classe.defense;
                 mvprintw ((y/2)-3,(x/2) - 29,"%s %d","Attack: ",r.classe.attack);
@@ -191,18 +191,26 @@ Player characterselect () {
 
 void game () {
     Player player = characterselect ();
-    int y,x,tx,floor,c;
+    int y,x,tx,floor,c,diff;
     floor = 0;
+    diff = 0;
     curs_set(0);
     getmaxyx (stdscr,y,x);
     tx = x;
     x-=(x/10);
-    while (floor < 6) {
+    while (floor < 7) {
         erase ();
-        mapa = createmap (x,y);
-        c = play (mapa,x,y,&player,floor);
+        if (floor == 3){
+            //mapa = createshop (x,y);
+            diff--;
+        }
+        else{
+            mapa = createmap (x,y);
+        }
+        c = play (mapa,x,y,&player,diff);
         if (c == 1) {
             floor++;
+            diff++;
         }
         else {
             if (c == 0) {
