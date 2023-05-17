@@ -17,7 +17,7 @@ int movement(Game game) {
                 mvprintw (0, i, "%s", " ");
             }
         }
-        walk_mob = rand()%3;
+        walk_mob = rand()%4;
         t = time(0);
         s = (char) getchar();
         tx = game->player->p.x;

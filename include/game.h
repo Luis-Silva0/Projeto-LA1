@@ -47,7 +47,8 @@ Player characterselect () {
                 r.p.x = -1;
                 r.p.y = -1;
                 r.character = '@';
-                r.health = 1000;
+                r.health = 100;
+                r.money = 0;
                 r.classe.attack = 10;
                 r.classe.defense = 6;
                 r.classe.range = 2;
@@ -81,6 +82,7 @@ Player characterselect () {
                 r.p.y = -1;
                 r.character = '@';
                 r.health = 100;
+                r.money = 0;
                 r.classe.attack = 8;
                 r.classe.defense = 3;
                 r.classe.range = 4;
@@ -114,6 +116,7 @@ Player characterselect () {
                 r.p.y = -1;
                 r.character = '@';
                 r.health = 100;
+                r.money = 0;
                 r.classe.attack = 4;
                 r.classe.defense = 3;
                 r.classe.range = 4;
@@ -146,7 +149,8 @@ Player characterselect () {
                 r.p.x = -1;
                 r.p.y = -1;
                 r.character = '@';
-                r.health = 100;
+                r.health = 1000;
+                r.money = 0;
                 r.classe.attack = 16;
                 r.classe.defense = 10;
                 r.classe.range = 2;

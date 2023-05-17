@@ -32,7 +32,7 @@ void max_update(int max){
 
 void mob_list (Mob goblin){
     if (l_goblin == NULL){
-        l_goblin = malloc(sizeof(struct Lista_mobs) * 30);
+        l_goblin = malloc(sizeof(struct Lista_mobs) * 50);
         l_goblin->atual = goblin;
         l_goblin->ant = NULL;
         l_goblin->prox = NULL;
@@ -107,7 +107,8 @@ int mob_move_space(int pos_p, int pos_m){
 }
 
 void mob_movement (Position pos_p, Map *m, int walk){
-    while (l_goblin->prox != NULL && walk == 0){
+    srand(clock());
+    while (l_goblin->prox != NULL && walk != 0){
         int difx, dify;
         difx = abs(pos_p.x - l_goblin->atual->pos_m.x);
         dify = abs(pos_p.y - l_goblin->atual->pos_m.y);
@@ -131,6 +132,60 @@ void mob_movement (Position pos_p, Map *m, int walk){
                 m[new_y][l_goblin->atual->pos_m.x].walkable = false;
             }
         }
+/*        else {
+            int d = rand ()%4;
+            if (d == 0 && m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x+1].walkable == true) {
+                m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = l_goblin->atual->floor;
+                if (m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '.' || m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '+') {
+                    m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = true;
+                }
+                else m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = true;
+                l_goblin->atual->floor = m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x+1].ch;
+                l_goblin->atual->pos_m.x = l_goblin->atual->pos_m.x+1;
+                m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = 'G';
+                m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+            }
+            else {
+                if (d == 1 && m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x-1].walkable == true) {
+                    m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = l_goblin->atual->floor;
+                    if (m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '.' || m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '+') {
+                        m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = true;
+                    }
+                    else m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                    l_goblin->atual->floor = m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x-1].ch;
+                    l_goblin->atual->pos_m.x = l_goblin->atual->pos_m.x-1;
+                    m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = 'G';
+                    m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                }
+                else {
+                    if (d == 2 && m[l_goblin->atual->pos_m.y+1][l_goblin->atual->pos_m.x].walkable == true) {
+                        m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = l_goblin->atual->floor;
+                        if (m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '.' || m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '+') {
+                            m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = true;
+                        }
+                        else m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                        l_goblin->atual->floor = m[l_goblin->atual->pos_m.y+1][l_goblin->atual->pos_m.x+1].ch;
+                        l_goblin->atual->pos_m.y = l_goblin->atual->pos_m.y+1;
+                        m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = 'G';
+                        m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                    }
+                    else {
+                        if (m[l_goblin->atual->pos_m.y-1][l_goblin->atual->pos_m.x].walkable == true) {
+                            m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = l_goblin->atual->floor;
+                            if (m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '.' || m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch == '+') {
+                                m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = true;
+                            }
+                            else m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                            l_goblin->atual->floor = m[l_goblin->atual->pos_m.y-1][l_goblin->atual->pos_m.x].ch;
+                            l_goblin->atual->pos_m.y = l_goblin->atual->pos_m.y-1;
+                            m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].ch = 'G';
+                            m[l_goblin->atual->pos_m.y][l_goblin->atual->pos_m.x].walkable = false;
+                        }
+                    }
+                }
+            }
+        }*/
         l_goblin = l_goblin->prox;
     }
     while (l_goblin->ant != NULL){

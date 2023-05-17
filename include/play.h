@@ -18,7 +18,7 @@ typedef struct classe {
 typedef struct player {
     Position p;
     char character;
-    int health;
+    int health,money;
     Class classe;
 } Player;
 
