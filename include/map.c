@@ -198,7 +198,16 @@ void printVisible(Game game, float y, float x) {
 void printMap(Game game) {
     float x,y;
     int i;
-
+    int sx = 0; 
+    int sy = 0;
+    for (int i = 0; i < game->maxY; i++) {
+        for (int j = 0; j < game->maxX; j++) {
+            if (game->map[i][j].ch == 's'){
+                sx = j;
+                sy = i;
+            }
+        }
+    }
     if (game->godMode) {
         for (int i = 0; i < game->maxY; i++) {
             for (int j = 0; j < game->maxX; j++) {
@@ -207,6 +216,8 @@ void printMap(Game game) {
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
                 else if (game->map[i][j].ch == 's'){
+                    sx = j; 
+                    sy = i;
                     attrset(COLOR_PAIR(3));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
@@ -230,6 +241,7 @@ void printMap(Game game) {
 
     attrset(COLOR_PAIR(2));
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
+    mvprintw(6, (((game->maxX*10)/9) - 15), "S -> %d %d", sx, sy);
 }
 
 
