@@ -122,9 +122,20 @@ void move_mobs (Game game,Mob_list *l,int d) {
     l = head;
 }
 
+void dropitem (Player *p){
+    srand(clock());
+    int drop = rand()%4;
+    if (drop == 0){
+        (*p).bag.potion ++;
+        mvprintw(1,0,"You got a potion!");
+    }
+}
+
 void combat (Mob_list *l,Player *p) {
     Mob_list *head;
     head = &(*l);
+    int mob_money;
+    srand (clock());
     while (*l) {
         if ((*l)->m.vida > 0) {
             if ((*l)->m.range >= abs((*l)->m.pos_x - (*p).p.x) && (*l)->m.range >= abs((*l)->m.pos_y - (*p).p.y)) {
@@ -133,6 +144,12 @@ void combat (Mob_list *l,Player *p) {
             }
             if ((*p).classe.range >= abs((*l)->m.pos_x - (*p).p.x) && (*p).classe.range >= abs((*l)->m.pos_y - (*p).p.y)) {
                 (*l)->m.vida -= (*p).classe.attack;
+                if ((*l)->m.vida <= 0){
+                    mob_money = rand()%10 + 5;
+                    (*p).money += mob_money;
+                    mvprintw(0,0,"You picked up %d gold", mob_money);
+                    dropitem(&(*p));
+                } 
             }
         }
         l = &((*l)->prox);
