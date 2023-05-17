@@ -17,7 +17,7 @@ typedef struct mob_list {
 } *Mob_list;
 
 void show_mobs (Mob_list l,int x,Game game){
-    int y = 7;
+    int y = 11;
     while (l) {
         if (l->m.vida > 0) {
             mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);

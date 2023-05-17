@@ -244,9 +244,10 @@ void printMap(Game game) {
     for(int i = 0; i < game->maxY; i++){
         mvprintw(i, (((game->maxX*10)/9) - 23), "|");
     }
-    mvprintw(4, (((game->maxX*10)/9) - 22), "----------------------");
-    mvprintw(5, (((game->maxX*10)/9) - 16), "S -> %d %d", sx, sy);
-    mvprintw(6, (((game->maxX*10)/9) - 22), "----------------------"); 
+    mvprintw(5, (((game->maxX*10)/9) - 22), "---------Exit---------");
+    mvprintw(7, (((game->maxX*10)/9) - 16), "S -> %d %d", sx, sy);
+    mvprintw(9, (((game->maxX*10)/9) - 22), "-------Enemies:-------"); 
+    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 20, "Press (i) for info");
 }
 
 
