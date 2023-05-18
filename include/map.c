@@ -231,12 +231,15 @@ void printVisible(Game game, float y, float x) {
     }
 }
 
-void printMap(Game game) {
+void printMap(Game game, int ps) {
     float x,y;
     int mx = (10*game->maxX)/9 - 25;
     int i;
     int sx = 0; 
     int sy = 0;
+    if (ps > 0){
+        game->godMode = true;
+    }
     for (int i = 0; i < game->maxY; i++) {
         for (int j = 0; j < game->maxX; j++) {
             if (game->map[i][j].ch == 's'){
@@ -257,6 +260,10 @@ void printMap(Game game) {
                     sy = i;
                     attrset(COLOR_PAIR(3));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
+                    if (ps == 1){
+                        game->player->p.x = j;
+                        game->player->p.y = i-1;
+                    }  
                 }
                 else if (game->map[i][j].ch == ':'){
                     attrset(COLOR_PAIR(5));
@@ -265,6 +272,9 @@ void printMap(Game game) {
                 else {
                     attrset(COLOR_PAIR(2));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
+                    if (ps > 0){
+                        mvprintw(4,(game->maxX/2)-2, "SHOP");
+                    }
                 }
             }
         }
@@ -275,7 +285,6 @@ void printMap(Game game) {
             printVisible(game, y, x);
         }
     }
-
     attrset(COLOR_PAIR(2));
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
     for(int i = 0; i < game->maxY; i++){

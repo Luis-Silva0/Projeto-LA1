@@ -1,4 +1,4 @@
-#include "map.c"
+#include "store.c"
 #include "inventory.c"
 #include <ncurses.h>
 #include <stdlib.h>
@@ -9,13 +9,13 @@
 #include "map.h"
 #include "mobs2.c"
 
-int movement(Game game,int floor) {
+int movement(Game game,int floor,int diff) {
     int tx,ty,t;
     int walk_mob;
     t = 0;
     char s = '1';
     Mob_list mobs;
-    mobs = create_mob2(game->map,(game->maxX*10)/9 - 25,game->maxY,8,floor);
+    mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor, diff);
     while (s != 'q') {
         show_mobs(mobs,((game->maxX*10)/9) - 18,game);     
         if (t != time(0)) {
@@ -114,7 +114,11 @@ int movement(Game game,int floor) {
         }
         actionShow (game);
 //        mob_movement(game->player->p, game->map, walk_mob);
-        printMap(game);
+        int ps = 0;
+        if (floor == 1){
+            ps = 2;
+        }
+        printMap(game, ps);
         if (game->godMode) {
             attron (COLOR_PAIR(6));
             mvprintw (0,0,"%s","Baby Mode Activated");
@@ -146,9 +150,12 @@ int movement(Game game,int floor) {
     return 2;
 }
 
-int play (Map *mapa, int maxX, int maxY,Player *player,int floor) {
+int play (Map *mapa, int maxX, int maxY,Player *player,int floor, int diff) {
     srand(clock());
-
+    int ps = 0;
+    if (floor == 1){
+        ps = 1;
+    }
     int myx, myy;
     myx = myy = -1;
     while (myx == -1 || myy == -1){
@@ -163,6 +170,7 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor) {
             (*player).p.y = myy;
         }
     }
+ 
     
     Game game = (Game) malloc(sizeof(struct game));
     game->map = mapa;
@@ -174,10 +182,10 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor) {
     mvprintw (2,((game->maxX*10)/9) - 16,"%s %d","Health:",game->player->health);
     mvprintw (3,((game->maxX*10)/9) - 16,"%s %d","Money:",game->player->money);
 
-    printMap(game);
+    printMap(game, ps);
     refresh ();
 
-    int r = movement(game,floor);
+    int r = movement(game,floor,diff);
 
     return r;
 }

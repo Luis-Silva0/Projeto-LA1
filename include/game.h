@@ -200,17 +200,16 @@ void game () {
     x-=(x/10);
     while (floor < 7) {
         erase ();
-        if (floor == 3){
-            //mapa = createshop (x,y);
-            diff--;
+        if (floor == 1){
+            mapa = createshop (x,y);
         }
         else{
             mapa = createmap (x,y);
+            diff++;
         }
-        c = play (mapa,x,y,&player,diff);
+        c = play (mapa,x,y,&player,floor,diff);
         if (c == 1) {
             floor++;
-            diff++;
         }
         else {
             if (c == 0) {
