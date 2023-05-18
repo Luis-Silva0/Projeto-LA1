@@ -29,10 +29,10 @@ Map* createshop (int x, int y){
             ly = y - 20;
         }
         else{
-            bx = 88;
-            by = y - 12;
-            lx = x - 180;
-            ly = 8;
+            bx = x/2 - 12;
+            by = y - 11;
+            lx = 24;
+            ly = 7;
         }
         rooms[acc].bx = bx;rooms[acc].by = by;rooms[acc].lx = lx;rooms[acc].ly = ly;
         for (int i = by;i < (by+ly);i++) {
