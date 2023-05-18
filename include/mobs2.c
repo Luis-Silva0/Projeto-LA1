@@ -17,7 +17,7 @@ typedef struct mob_list {
 } *Mob_list;
 
 void show_mobs (Mob_list l,int x,Game game){
-    int y = 11;
+    int y = 22;
     while (l) {
         if (l->m.vida > 0) {
             mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);
@@ -122,33 +122,35 @@ void move_mobs (Game game,Mob_list *l,int d) {
     l = head;
 }
 
-void dropitem (Player *p){
+void dropitem (Game game){
     srand(clock());
+//    int x = getmaxx (stdscr);
     int drop = rand()%4;
     if (drop == 0){
-        (*p).bag.potion ++;
-        mvprintw(1,0,"You got a potion!");
+        game->player->bag.potion ++;
+        actionreload (game,0,0);
     }
 }
 
-void combat (Mob_list *l,Player *p) {
+void combat (Mob_list *l,Game game) {
     Mob_list *head;
     head = &(*l);
     int mob_money;
     srand (clock());
     while (*l) {
         if ((*l)->m.vida > 0) {
-            if ((*l)->m.range >= abs((*l)->m.pos_x - (*p).p.x) && (*l)->m.range >= abs((*l)->m.pos_y - (*p).p.y)) {
-                if ((*l)->m.dano - (*p).classe.defense >= 0) {
-                    (*p).health -= ((*l)->m.dano - (*p).classe.defense);            }
+            if ((*l)->m.range >= abs((*l)->m.pos_x - game->player->p.x) && (*l)->m.range >= abs((*l)->m.pos_y - game->player->p.y)) {
+                if ((*l)->m.dano - game->player->classe.defense >= 0) {
+                    game->player->health -= ((*l)->m.dano - game->player->classe.defense);            }
             }
-            if ((*p).classe.range >= abs((*l)->m.pos_x - (*p).p.x) && (*p).classe.range >= abs((*l)->m.pos_y - (*p).p.y)) {
-                (*l)->m.vida -= (*p).classe.attack;
+            if (game->player->classe.range >= abs((*l)->m.pos_x - game->player->p.x) && game->player->classe.range >= abs((*l)->m.pos_y - game->player->p.y)) {
+                (*l)->m.vida -= game->player->classe.attack;
                 if ((*l)->m.vida <= 0){
-                    mob_money = rand()%10 + 5;
-                    (*p).money += mob_money;
-                    mvprintw(0,0,"You picked up %d gold", mob_money);
-                    dropitem(&(*p));
+                    mob_money = rand()%11 + 5;
+                    game->player->money += mob_money;
+                    actionreload(game,1,mob_money);
+//                    mvprintw(0,0,"You picked up %d gold", mob_money);
+                    dropitem(game);
                 } 
             }
         }

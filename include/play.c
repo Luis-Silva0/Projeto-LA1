@@ -15,9 +15,9 @@ int movement(Game game,int floor) {
     t = 0;
     char s = '1';
     Mob_list mobs;
-    mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor);
+    mobs = create_mob2(game->map,(game->maxX*10)/9 - 25,game->maxY,8,floor);
     while (s != 'q') {
-        show_mobs(mobs,((game->maxX*10)/9) - 16,game);     
+        show_mobs(mobs,((game->maxX*10)/9) - 18,game);     
         if (t != time(0)) {
             for (int i = 0; i < 57; i++) {
                 mvprintw (0, i, "%s", " ");
@@ -45,7 +45,7 @@ int movement(Game game,int floor) {
                 mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
                 mvprintw(ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game->player);
+                combat(&mobs,game);
                 }
             break;
         case 's':
@@ -60,7 +60,7 @@ int movement(Game game,int floor) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game->player);
+                combat(&mobs,game);
                 }
             break;
         case 'a':
@@ -89,7 +89,7 @@ int movement(Game game,int floor) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game->player);
+                combat(&mobs,game);
                 }
             break;
         case 'k':
@@ -112,6 +112,7 @@ int movement(Game game,int floor) {
         default:
             break;
         }
+        actionShow (game);
 //        mob_movement(game->player->p, game->map, walk_mob);
         printMap(game);
         if (game->godMode) {
@@ -119,8 +120,8 @@ int movement(Game game,int floor) {
             mvprintw (0,0,"%s","Baby Mode Activated");
             attroff (COLOR_PAIR(6));
         }
-        mvprintw (2,((game->maxX*10)/9) - 16,"%s %d","Health:",game->player->health);
-        mvprintw (3,((game->maxX*10)/9) - 16,"%s %d","Money:",game->player->money);
+        mvprintw (2,((game->maxX*10)/9) - 17,"%s %d","Health:",game->player->health);
+        mvprintw (3,((game->maxX*10)/9) - 17,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {

@@ -1,4 +1,5 @@
 #include "mobs.c"
+#include <string.h>
 #include <time.h>
 #include <ncurses.h>
 #include <stdlib.h>
@@ -9,6 +10,40 @@
 #include "play.h"
 
 bool FOG_OF_WAR_ENABLED = true;
+
+void actionreload (Game game, int n,int m) {
+    for (int i = 7;i > 0;i--) {
+        strcpy (game->actions[i],game->actions[i-1]);
+    }
+    if (n == 0) {
+       strcpy (game->actions[0],"You got a potion."); 
+    }
+    else if (n == 1) {
+        int d1 = m/10;
+        int d2 = m%10;
+        char s[24] = "You picked up ";
+        s[14] = '0' + d1;
+        s[15] = '0' + d2;
+        s[16] = ' ';
+        s[17] = 'g';
+        s[18] = 'o';
+        s[19] = 'l';
+        s[20] = 'd';
+        s[21] = '.';
+        strcpy (game->actions[0],s);
+    }
+    
+}
+
+void actionShow (Game game) {
+    int y = 11;
+    for (int i = 0;i < 8;i++) {
+        if (game->actions[i] != NULL) {
+            mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i]);
+            y++;
+        }
+    }
+}
 
 void ligasalas (Position c1,Position c2,Map* m) {
     Position temp;
@@ -68,12 +103,13 @@ void ligasalas (Position c1,Position c2,Map* m) {
 }
 
 Map* createmap (int x, int y) {
+    int mx = (x*10)/9 - 25;
     Map* mapa = calloc (y+1,sizeof(Map));
     for (int i = 0;i <= y;i++) {
-        mapa[i] = calloc (x+1,sizeof(char)+sizeof(bool));
+        mapa[i] = calloc (mx+1,sizeof(char)+sizeof(bool));
     }
     for (int i = 0;i <= y;i++) {
-        for (int j = 0;j <= x;j++) {
+        for (int j = 0;j <= mx;j++) {
             mapa[i][j].ch = ':';
             mapa[i][j].walkable = false;
         }
@@ -84,11 +120,11 @@ Map* createmap (int x, int y) {
     rooms = calloc (salas,4*sizeof(int));
     while (salas > acc) {
         int bx,by,lx,ly;
-        lx = (rand() % (int)(x*0.15)) + 6;
+        lx = (rand() % (int)(mx*0.15)) + 6;
         ly = (rand() % (int)(y*0.15)) + 6;
-        bx = (rand() % (x-2)) + 1;
+        bx = (rand() % (mx-2)) + 1;
         by = (rand() % (y-2)) + 1;
-        if (bx + lx >= x) bx = bx - lx;
+        if (bx + lx >= mx) bx = bx - lx;
         if (by + ly >= y) by = by - ly;
         rooms[acc].bx = bx;rooms[acc].by = by;rooms[acc].lx = lx;rooms[acc].ly = ly;
         for (int i = by;i < (by+ly);i++) {
@@ -197,6 +233,7 @@ void printVisible(Game game, float y, float x) {
 
 void printMap(Game game) {
     float x,y;
+    int mx = (10*game->maxX)/9 - 25;
     int i;
     int sx = 0; 
     int sy = 0;
@@ -210,7 +247,7 @@ void printMap(Game game) {
     }
     if (game->godMode) {
         for (int i = 0; i < game->maxY; i++) {
-            for (int j = 0; j < game->maxX; j++) {
+            for (int j = 0; j < mx; j++) {
                 if (game->map[i][j].ch == '#'){
                     attrset(COLOR_PAIR(1));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
@@ -242,13 +279,14 @@ void printMap(Game game) {
     attrset(COLOR_PAIR(2));
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
     for(int i = 0; i < game->maxY; i++){
-        mvprintw(i, (((game->maxX*10)/9) - 23), "|");
+        mvprintw(i, (((game->maxX*10)/9) - 24), "|");
     }
-    mvprintw(5, (((game->maxX*10)/9) - 22), "---------Exit---------");
-    mvprintw(7, (((game->maxX*10)/9) - 16), "S -> %d %d", sx, sy);
-    mvprintw(9, (((game->maxX*10)/9) - 22), "-------Enemies:-------"); 
-    mvprintw((game->maxY)-4,((game->maxX*10)/9) - 20, "Drink potion = (p)");
-    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 19, "Extra info = (i)");
+    mvprintw(5, (((game->maxX*10)/9) - 23), "---------Exit---------");
+    mvprintw(7, (((game->maxX*10)/9) - 17), "S -> %d %d", sx, sy);
+    mvprintw(9, (((game->maxX*10)/9) - 23), "-------Actions:-------");
+    mvprintw(20, (((game->maxX*10)/9) - 23), "-------Enemies:-------"); 
+    mvprintw((game->maxY)-4,((game->maxX*10)/9) - 21, "Drink potion = (p)");
+    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 20, "Extra info = (i)");
 }
 
 

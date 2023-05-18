@@ -17,7 +17,7 @@ typedef struct game {
     int maxX;
     int maxY;
     bool godMode;
-
+    char actions[8][30];
     Player *player;
 } *Game;
 
