@@ -128,12 +128,101 @@ void move_mobs (Game game,Mob_list *l,int d) {
     l = head;
 }
 
-void dropitem (Game game){
+void dropitem (Game game, Mob_list l){
     srand(clock());
-    int drop = rand()%4;
-    if (drop == 0){
+    int drop_potion = rand()%4;
+    int drop_item = rand()%6;
+    if (drop_potion == 0){
         game->player->bag.potion ++;
         actionreload (game,0,0,'n');
+    }
+    if (drop_item == 0){
+        if (l->m.mob_char == 'T'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
+        if (l->m.mob_char == 'D'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
+        if (l->m.mob_char == 'H'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
+    }
+    if (drop_potion == 0){
+        if (l->m.mob_char == 'T'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
+        if (l->m.mob_char == 'D'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
+        if (l->m.mob_char == 'H'){
+            if (game->player->classe.name == "Swordsman"){
+
+            }
+            if (game->player->classe.name == "Archer"){
+                
+            }
+            if (game->player->classe.name == "Gunner"){
+                
+            }
+            if (game->player->classe.name == "Viking"){
+                
+            }
+        }
     }
 }
 
@@ -155,7 +244,7 @@ void combat (Mob_list *l,Game game) {
                     game->player->money += mob_money;
                     actionreload(game,5,0,(*l)->m.mob_char);
                     actionreload(game,1,mob_money,'n');
-                    dropitem(game);
+                    dropitem(game, l);
                 } 
             }
         }

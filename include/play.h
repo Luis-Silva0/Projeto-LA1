@@ -9,17 +9,22 @@ typedef struct pos {
 } Position;
 
 typedef struct classe {
+    char * name;
     int attack;
     int defense;
     int range;
 } Class;
 
+typedef struct item{
+    char * item;
+    int enchantment;
+    int value;
+}Item;
+
 typedef struct inventory{
     int potion;
-    char * weapon;
-    int weapon_dmg;
-    char * armor;
-    int armor_def;
+    Item weapon;
+    Item armor;
 } Inventory;
 
 typedef struct player {
@@ -28,7 +33,6 @@ typedef struct player {
     int health,money;
     Class classe;
     Inventory bag;
-    // inventory -> 3 slots para já
 } Player;
 
 #endif //PLAY_H

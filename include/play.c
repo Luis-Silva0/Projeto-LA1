@@ -7,7 +7,6 @@
 
 #include "play.h"
 #include "map.h"
-#include "mobs2.c"
 
 int movement(Game game,int floor,int diff) {
     int tx,ty,t;
@@ -100,8 +99,11 @@ int movement(Game game,int floor,int diff) {
             game->godMode = !game->godMode;
             break;
         case 'i' :
-            check_inv(game->player);
+            check_info(game->player);
             s = getchar();
+            break;
+        case 'b' :
+            //check_inv(game->player);
             break;
         case 'p' :
             if (game->player->bag.potion > 0) {
