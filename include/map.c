@@ -17,13 +17,13 @@ void actionreload (Game game, int n,int m,char c) {
         game->actions[i].color = game->actions[i-1].color;
     }
     if (n == 0) {
-       strcpy (game->actions[0].line,"You got a potion.");
+       strcpy (game->actions[0].line,"You got a potion");
        game->actions[0].color = 0;
     }
     else if (n == 1) {
         int d1 = m/10;
         int d2 = m%10;
-        char s[24] = "You picked up ";
+        char s[21] = "You picked up ";
         s[14] = '0' + d1;
         s[15] = '0' + d2;
         s[16] = ' ';
@@ -31,7 +31,6 @@ void actionreload (Game game, int n,int m,char c) {
         s[18] = 'o';
         s[19] = 'l';
         s[20] = 'd';
-        s[21] = '.';
         strcpy (game->actions[0].line,s);
         game->actions[0].color = 0;
     }
@@ -322,12 +321,15 @@ void printMap(Game game, int ps) {
                     attrset(COLOR_PAIR(5));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
+                else if (game->map[i][j].ch != '.' && game->map[i][j].ch != '+'){
+                        attrset(COLOR_PAIR(2));
+                        attron (A_REVERSE);
+                        mvprintw(i, j, "%c", game->map[i][j].ch);
+                        attroff (A_REVERSE);
+                }
                 else {
                     attrset(COLOR_PAIR(2));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
-                    if (ps > 0){
-                        mvprintw(4,(game->maxX/2)-2, "SHOP");
-                    }
                 }
             }
         }

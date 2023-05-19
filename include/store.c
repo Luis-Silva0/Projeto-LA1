@@ -24,7 +24,7 @@ Map* createshop (int x, int y){
         int bx, by, lx, ly;
         if (acc == 0){
             bx = 20;
-            by = 5;
+            by = 8;
             lx = x - 44;
             ly = y - 20;
         }
@@ -63,5 +63,16 @@ Map* createshop (int x, int y){
             mapa[center2.y][center2.x].walkable = true;
         }
     }
+    FILE *f;
+    f = fopen("ASCIIart/Shop.txt","r");
+    for (int i = 1;i < 7;i++) {
+        for (int j = x/2-15;j < x/2+15;j++) {
+            char c = fgetc (f);
+            mapa[i][j].ch = c;
+            mapa[i][j].walkable = false;
+        }
+        mapa[i][(x/2+14)].ch = ' ';
+    }
+    fclose (f);
     return mapa;
 }
