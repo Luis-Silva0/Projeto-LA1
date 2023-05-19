@@ -23,7 +23,7 @@ void show_mobs (Mob_list l,int x,Game game){
         if (l->m.vida > 0) {
             mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);
             refresh();
-            init_pair(4,COLOR_RED,COLOR_YELLOW);
+            init_pair(4,COLOR_WHITE,COLOR_RED);
             int tempx,tempy;
             tempx = l->m.pos_x;
             tempy = l->m.pos_y;
@@ -128,7 +128,7 @@ void move_mobs (Game game,Mob_list *l,int d) {
     l = head;
 }
 
-void dropitem (Game game, Mob_list l){
+void dropitem (Game game, Mob_list *l){
     srand(clock());
     int drop_potion = rand()%4;
     int drop_item = rand()%6;
@@ -137,7 +137,7 @@ void dropitem (Game game, Mob_list l){
         actionreload (game,0,0,'n');
     }
     if (drop_item == 0){
-        if (l->m.mob_char == 'T'){
+        if ((*l)->m.mob_char == 'T'){
             if (game->player->classe.name == "Swordsman"){
 
             }
@@ -151,7 +151,7 @@ void dropitem (Game game, Mob_list l){
                 
             }
         }
-        if (l->m.mob_char == 'D'){
+        if ((*l)->m.mob_char == 'D'){
             if (game->player->classe.name == "Swordsman"){
 
             }
@@ -165,7 +165,7 @@ void dropitem (Game game, Mob_list l){
                 
             }
         }
-        if (l->m.mob_char == 'H'){
+        if ((*l)->m.mob_char == 'H'){
             if (game->player->classe.name == "Swordsman"){
 
             }

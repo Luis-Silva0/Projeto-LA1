@@ -167,11 +167,11 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor, int diff) {
     if (floor == 1){
         ps = 1;
     }
-    int myx, myy;
+    int myx, myy,mx = (maxX*10)/9 - 25;
     myx = myy = -1;
     while (myx == -1 || myy == -1){
         myy = (rand () % maxY);
-        myx = (rand () % maxX);
+        myx = (rand () % mx);
         if (mapa[myy][myx].walkable == false) {
             myx = -1;
             myy = -1;

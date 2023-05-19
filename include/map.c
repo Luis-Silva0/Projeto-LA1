@@ -11,6 +11,11 @@
 
 bool FOG_OF_WAR_ENABLED = true;
 
+int trans (int n) {
+    int r = ((n+1)*1001)/256;
+    return r;
+}
+
 void actionreload (Game game, int n,int m,char c) {
     for (int i = 7;i > 0;i--) {
         strcpy (game->actions[i].line,game->actions[i-1].line);
@@ -23,7 +28,7 @@ void actionreload (Game game, int n,int m,char c) {
     else if (n == 1) {
         int d1 = m/10;
         int d2 = m%10;
-        char s[21] = "You picked up ";
+        char s[30] = "You picked up ";
         s[14] = '0' + d1;
         s[15] = '0' + d2;
         s[16] = ' ';
@@ -31,6 +36,7 @@ void actionreload (Game game, int n,int m,char c) {
         s[18] = 'o';
         s[19] = 'l';
         s[20] = 'd';
+        s[21] = '\0';
         strcpy (game->actions[0].line,s);
         game->actions[0].color = 0;
     }
@@ -242,8 +248,12 @@ void printTile(Game game, int y, int x) {
         attrset(COLOR_PAIR(5));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
-    else{
-        attrset(COLOR_PAIR(2));
+    else if (game->map[y][x].ch == '.'){
+        attrset(COLOR_PAIR(12));
+        mvprintw(y, x, "%c", game->map[y][x].ch);
+    }
+    else {
+        attrset(COLOR_PAIR(9));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
 }
@@ -327,8 +337,12 @@ void printMap(Game game, int ps) {
                         mvprintw(i, j, "%c", game->map[i][j].ch);
                         attroff (A_REVERSE);
                 }
+                else if (game->map[i][j].ch == '.'){
+                    attrset(COLOR_PAIR(12));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
                 else {
-                    attrset(COLOR_PAIR(2));
+                    attrset(COLOR_PAIR(9));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
             }
@@ -340,8 +354,10 @@ void printMap(Game game, int ps) {
             printVisible(game, y, x);
         }
     }
-    attrset(COLOR_PAIR(2));
+    attron(COLOR_PAIR(11));
     mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
+    attroff(COLOR_PAIR(11));
+    attrset (COLOR_PAIR(2));
     for(int i = 0; i < game->maxY; i++){
         mvprintw(i, (((game->maxX*10)/9) - 24), "|");
     }
