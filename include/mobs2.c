@@ -128,61 +128,66 @@ void move_mobs (Game game,Mob_list *l,int d) {
     l = head;
 }
 
-void dropitem (Game game, Mob_list *l){
+void dropitem (Game game, Mob_list *l,LItems *items){
+    Item i = malloc (sizeof (struct item));
     srand(clock());
     int drop_potion = rand()%4;
-    int drop_item = rand()%6;
+    int drop_item = 0;
     if (drop_potion == 0){
         game->player->bag.potion ++;
         actionreload (game,0,0,'n');
     }
     if (drop_item == 0){
         if ((*l)->m.mob_char == 'T'){
-            if (game->player->classe.name == "Swordsman"){
+            if (strcmp (game->player->classe.name,"Swordsman")){
 
             }
-            if (game->player->classe.name == "Archer"){
+            if (strcmp (game->player->classe.name,"Archer")){
                 
             }
-            if (game->player->classe.name == "Gunner"){
+            if (strcmp (game->player->classe.name,"Gunner")){
                 
             }
-            if (game->player->classe.name == "Viking"){
-                
+            if (strcmp (game->player->classe.name,"Viking") == 0){
+                strcpy(i->item ,"Iron Axe"); /* das copy do nome do item*/
+                i->enchantment = 1;/* das o nivel do enchnatment*/
+                i->value = 16; /* mandas base value*/
+                i->d = 1; /*aqui escolhes 1 para armas e 2 para armaduras*/
+                addItem(&(*items),i,(*l)->m.pos_x,(*l)->m.pos_y); /*aqui mandas a lista,o 'i' que é o item e manda o x e o y do mob que morreu para por lá o item*/
             }
         }
         if ((*l)->m.mob_char == 'D'){
-            if (game->player->classe.name == "Swordsman"){
+            if (strcmp (game->player->classe.name,"Swordsman")){
 
             }
-            if (game->player->classe.name == "Archer"){
+            if (strcmp (game->player->classe.name,"Archer")){
                 
             }
-            if (game->player->classe.name == "Gunner"){
+            if (strcmp (game->player->classe.name,"Gunner")){
                 
             }
-            if (game->player->classe.name == "Viking"){
+            if (strcmp (game->player->classe.name,"Viking")){
                 
             }
         }
         if ((*l)->m.mob_char == 'H'){
-            if (game->player->classe.name == "Swordsman"){
+            if (strcmp (game->player->classe.name,"Swordsman")){
 
             }
-            if (game->player->classe.name == "Archer"){
+            if (strcmp (game->player->classe.name,"Archer")){
                 
             }
-            if (game->player->classe.name == "Gunner"){
+            if (strcmp (game->player->classe.name,"Gunner")){
                 
             }
-            if (game->player->classe.name == "Viking"){
+            if (strcmp (game->player->classe.name,"Viking")){
                 
             }
         }
     }
 }
 
-void combat (Mob_list *l,Game game) {
+void combat (Mob_list *l,Game game,LItems *list) {
     Mob_list *head;
     head = &(*l);
     int mob_money;
@@ -200,7 +205,7 @@ void combat (Mob_list *l,Game game) {
                     game->player->money += mob_money;
                     actionreload(game,5,0,(*l)->m.mob_char);
                     actionreload(game,1,mob_money,'n');
-                    dropitem(game, l);
+                    dropitem(game, l,&(*list));
                 } 
             }
         }

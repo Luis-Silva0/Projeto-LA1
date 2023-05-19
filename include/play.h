@@ -16,10 +16,17 @@ typedef struct classe {
 } Class;
 
 typedef struct item{
-    char * item;
+    char item[30];
     int enchantment;
     int value;
-}Item;
+    int d;
+} *Item;
+
+typedef struct litems {
+    Item it;
+    int x,y;
+    struct litems *prox;
+} *LItems;
 
 typedef struct inventory{
     int potion;

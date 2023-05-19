@@ -16,6 +16,106 @@ int trans (int n) {
     return r;
 }
 
+void addItem (LItems *li, Item i,int x,int y) {
+    LItems *head = &(*li);
+    while ((*li) != NULL) {
+        li = &(*li)->prox;
+    }
+    (*li) = malloc (sizeof (struct litems)); 
+    (*li)->it = malloc (sizeof(struct item));
+    strcpy((*li)->it->item,i->item);
+    (*li)->it->enchantment = i->enchantment;
+    (*li)->it->value = i->value;
+    (*li)->it->d = i->d;
+    (*li)->x = x;
+    (*li)->y = y;
+    li = head;
+}
+
+void checkItem (Game game,LItems items) {
+    while (items != NULL) {
+        attron (COLOR_PAIR (13));
+        mvprintw (items->y,items->x,"I");
+        attroff (COLOR_PAIR (13));
+        if (items->x == game->player->p.x && items->y == game->player->p.y) {
+            char temps[30];
+            mvprintw (2,2,"Do you want to pick this up?");
+            refresh();
+            int x,y;
+            int te,tv;
+            te = tv = 0;
+            getmaxyx (stdscr,y,x);
+            WINDOW *win = newwin (16,70,y/2-8,x/2-35);
+            mvwprintw (win,1,1,"%s",items->it->item);
+            mvwprintw (win,3,2,"Enchantment level: %d",items->it->enchantment);
+            mvwprintw (win,5,2,"Base value: %d", items->it->value);
+            if (items->it->d == 1) {
+                mvwprintw (win,9,1,"Previous item: %s",game->player->bag.weapon->item);
+                mvwprintw (win,11,2,"Enchantment level: %d",game->player->bag.weapon->enchantment);
+                mvwprintw (win,13,2,"Base value: %d",game->player->bag.weapon->value);
+                box (win,0,0);
+                wrefresh (win);
+                char c = getchar ();
+                switch (c)
+                {
+                case 'y':
+                    strcpy(temps,game->player->bag.weapon->item);
+                    te = game->player->bag.weapon->enchantment;
+                    tv = game->player->bag.weapon->value;
+                        
+                    strcpy(game->player->bag.weapon->item,items->it->item);
+                    game->player->bag.weapon->enchantment = items->it->enchantment;
+                    game->player->bag.weapon->value = items->it->value;
+                        
+                    strcpy(items->it->item,temps);
+                    items->it->enchantment = te;
+                    items->it->value = tv;
+                    
+                    break;
+                
+                default:
+                    break;
+                }
+                delwin (win);
+                refresh ();
+            }
+            else {
+                mvwprintw (win,9,1,"Previous item: %s",game->player->bag.armor->item);
+                mvwprintw (win,11,2,"Enchantment level: %d",game->player->bag.armor->enchantment);
+                mvwprintw (win,13,2,"Base value: %d",game->player->bag.armor->value);
+                box (win,0,0);
+                wrefresh (win);
+                char c = getchar ();
+                switch (c)
+                {
+                case 'y':
+                    strcpy(temps,game->player->bag.armor->item);
+                    te = game->player->bag.armor->enchantment;
+                    tv = game->player->bag.armor->value;
+                        
+                    strcpy(game->player->bag.armor->item,items->it->item);
+                    game->player->bag.armor->enchantment = items->it->enchantment;
+                    game->player->bag.armor->value = items->it->value;
+                        
+                    strcpy(items->it->item,temps);
+                    items->it->enchantment = te;
+                    items->it->value = tv;
+                    
+                    break;
+                
+                default:
+                    break;
+                }
+                delwin (win);
+                refresh ();
+                   
+            }
+        }
+        items = items->prox;
+    }
+    //items = head;
+}
+
 void actionreload (Game game, int n,int m,char c) {
     for (int i = 7;i > 0;i--) {
         strcpy (game->actions[i].line,game->actions[i-1].line);

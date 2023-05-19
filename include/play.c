@@ -14,6 +14,8 @@ int movement(Game game,int floor,int diff) {
     t = 0;
     char s = '1';
     Mob_list mobs;
+    LItems list;
+    list = NULL;
     mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor, diff);
     while (s != 'q') {
         int p = 0;
@@ -45,7 +47,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
                 mvprintw(ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game);
+                combat(&mobs,game,&list);
                 }
             break;
         case 's':
@@ -60,7 +62,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game);
+                combat(&mobs,game,&list);
                 }
             break;
         case 'a':
@@ -75,6 +77,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
+                combat(&mobs,game,&list);
                 }
             break;
         case 'd':
@@ -89,7 +92,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game);
+                combat(&mobs,game,&list);
                 }
             break;
         case 'k':
@@ -135,6 +138,8 @@ int movement(Game game,int floor,int diff) {
             actionreload (game,3,0,'n');
         }
         actionShow (game);
+        refresh();
+        checkItem (game,list);
         mvprintw (2,((game->maxX*10)/9) - 17,"%s %d","Health:",game->player->health);
         mvprintw (3,((game->maxX*10)/9) - 17,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);

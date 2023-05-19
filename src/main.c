@@ -21,6 +21,7 @@ int main () {
     init_pair(9,21,21);
     init_pair(10,20,20);
     init_pair(11,22,22);
+    init_pair(13,COLOR_BLACK,COLOR_WHITE);
     noecho ();
     curs_set (0);
     getmaxyx (stdscr,y,x);
