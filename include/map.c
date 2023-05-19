@@ -11,12 +11,14 @@
 
 bool FOG_OF_WAR_ENABLED = true;
 
-void actionreload (Game game, int n,int m) {
+void actionreload (Game game, int n,int m,char c) {
     for (int i = 7;i > 0;i--) {
-        strcpy (game->actions[i],game->actions[i-1]);
+        strcpy (game->actions[i].line,game->actions[i-1].line);
+        game->actions[i].color = game->actions[i-1].color;
     }
     if (n == 0) {
-       strcpy (game->actions[0],"You got a potion."); 
+       strcpy (game->actions[0].line,"You got a potion.");
+       game->actions[0].color = 0;
     }
     else if (n == 1) {
         int d1 = m/10;
@@ -30,17 +32,68 @@ void actionreload (Game game, int n,int m) {
         s[19] = 'l';
         s[20] = 'd';
         s[21] = '.';
-        strcpy (game->actions[0],s);
+        strcpy (game->actions[0].line,s);
+        game->actions[0].color = 0;
     }
-    
+    else if (n == 2) {
+        strcpy (game->actions[0].line,"You used a potion");
+        game->actions[0].color = 1;
+    }
+    else if (n == 3) {
+        strcpy (game->actions[0].line,"No potions left");
+        game->actions[0].color = 2;
+    }
+    else if (n == 4) {
+        if (c == 'D') {
+            strcpy (game->actions[0].line,"You see a Dreg");
+            game->actions[0].color = 2;
+        }
+        else if (c == 'T') {
+            strcpy (game->actions[0].line,"You see a Thrall");
+            game->actions[0].color = 2;
+        }
+        else if (c == 'H') {
+            strcpy (game->actions[0].line,"You see a Hydra");
+            game->actions[0].color = 2;
+        }
+        
+    }
+    else if (n == 5) {
+        if (c == 'D') {
+            strcpy (game->actions[0].line,"You killed a Dreg");
+            game->actions[0].color = 0;
+        }
+        else if (c == 'T') {
+            strcpy (game->actions[0].line,"You killed a Thrall");
+            game->actions[0].color = 0;
+        }
+        else if (c == 'H') {
+            strcpy (game->actions[0].line,"You killed a Hydra");
+            game->actions[0].color = 0;
+        }
+    }
 }
 
 void actionShow (Game game) {
     int y = 11;
     for (int i = 0;i < 8;i++) {
-        if (game->actions[i] != NULL) {
-            mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i]);
-            y++;
+        if (game->actions[i].line != NULL) {
+            if (game->actions[i].color == 0) {
+                attron (COLOR_PAIR(7));
+                mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
+                attroff (COLOR_PAIR(7));
+                y++;
+            }
+            else if (game->actions[i].color == 1) {
+                mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
+                y++;
+            }
+            else if (game->actions[i].color == 2) {
+                attron (COLOR_PAIR(8));
+                mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
+                attroff (COLOR_PAIR(8));
+                y++;
+            }
         }
     }
 }
@@ -295,7 +348,8 @@ void printMap(Game game, int ps) {
     mvprintw(9, (((game->maxX*10)/9) - 23), "-------Actions:-------");
     mvprintw(20, (((game->maxX*10)/9) - 23), "-------Enemies:-------"); 
     mvprintw((game->maxY)-4,((game->maxX*10)/9) - 21, "Drink potion = (p)");
-    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 20, "Extra info = (i)");
+    mvprintw((game->maxY)-3,((game->maxX*10)/9) - 21, "Inventory = (i)");
+    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 21, "Help = (h)");
 }
 
 

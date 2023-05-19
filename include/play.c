@@ -17,6 +17,7 @@ int movement(Game game,int floor,int diff) {
     Mob_list mobs;
     mobs = create_mob2(game->map,game->maxX,game->maxY,8,floor, diff);
     while (s != 'q') {
+        int p = 0;
         show_mobs(mobs,((game->maxX*10)/9) - 18,game);     
         if (t != time(0)) {
             for (int i = 0; i < 57; i++) {
@@ -103,16 +104,20 @@ int movement(Game game,int floor,int diff) {
             s = getchar();
             break;
         case 'p' :
-            game->player->bag.potion --;
-            game->player->health += 25;
-            if (game->player->health > 100){
-                game->player->health = 100;
+            if (game->player->bag.potion > 0) {
+                game->player->bag.potion --;
+                game->player->health += 25;
+                if (game->player->health > 100){
+                    game->player->health = 100;
+                }
+                actionreload(game,2,0,'n');
+                p = 0;
             }
+            else p = 1;
             break;
         default:
             break;
-        }
-        actionShow (game);
+        }      
 //        mob_movement(game->player->p, game->map, walk_mob);
         int ps = 0;
         if (floor == 1){
@@ -124,6 +129,10 @@ int movement(Game game,int floor,int diff) {
             mvprintw (0,0,"%s","Baby Mode Activated");
             attroff (COLOR_PAIR(6));
         }
+        if (p == 1) {
+            actionreload (game,3,0,'n');
+        }
+        actionShow (game);
         mvprintw (2,((game->maxX*10)/9) - 17,"%s %d","Health:",game->player->health);
         mvprintw (3,((game->maxX*10)/9) - 17,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);

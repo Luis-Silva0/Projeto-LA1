@@ -10,6 +10,7 @@ typedef struct mob2 {
     char mob_char;
     int pos_x,pos_y;
     int dano,vida,range;
+    bool visible;
 } Mob2;
 typedef struct mob_list {
     Mob2 m;
@@ -30,6 +31,10 @@ void show_mobs (Mob_list l,int x,Game game){
                 attron (COLOR_PAIR(4));
                 mvprintw (tempy,tempx,"%c",l->m.mob_char);
                 attroff (COLOR_PAIR(4));
+                if (l->m.visible == false) {
+                    actionreload (game,4,0,l->m.mob_char);
+                    l->m.visible = true; 
+                }
                 refresh();
             }
             else if (game->godMode) {
@@ -38,6 +43,7 @@ void show_mobs (Mob_list l,int x,Game game){
                 attroff (COLOR_PAIR(4));
                 refresh();
             }
+            else l->m.visible = false;
             y++;
         }
         l = l->prox;
@@ -124,11 +130,10 @@ void move_mobs (Game game,Mob_list *l,int d) {
 
 void dropitem (Game game){
     srand(clock());
-//    int x = getmaxx (stdscr);
     int drop = rand()%4;
     if (drop == 0){
         game->player->bag.potion ++;
-        actionreload (game,0,0);
+        actionreload (game,0,0,'n');
     }
 }
 
@@ -148,8 +153,8 @@ void combat (Mob_list *l,Game game) {
                 if ((*l)->m.vida <= 0){
                     mob_money = rand()%11 + 5;
                     game->player->money += mob_money;
-                    actionreload(game,1,mob_money);
-//                    mvprintw(0,0,"You picked up %d gold", mob_money);
+                    actionreload(game,5,0,(*l)->m.mob_char);
+                    actionreload(game,1,mob_money,'n');
                     dropitem(game);
                 } 
             }
@@ -160,6 +165,7 @@ void combat (Mob_list *l,Game game) {
 }
 
 Mob_list create_mob2 (Map *m,int x,int y,int n,int floor,int diff) {
+    int mx = (10*x)/9 - 25;
     Mob_list ml = malloc (sizeof(struct mob_list));
     if (floor == 1){
         return NULL;
@@ -173,7 +179,7 @@ Mob_list create_mob2 (Map *m,int x,int y,int n,int floor,int diff) {
         tempy = tempx = -1;
         while (tempy == -1 || tempx == -1) {
             tempy = rand()%y;
-            tempx = rand()%x;
+            tempx = rand()%mx;
             if (m[tempy][tempx].walkable == false) {
                 tempy = -1;
                 tempx = -1;
@@ -181,6 +187,7 @@ Mob_list create_mob2 (Map *m,int x,int y,int n,int floor,int diff) {
         }
         (*temp)->m.pos_x = tempx;
         (*temp)->m.pos_y = tempy;
+        (*temp)->m.visible = false;
         int p = rand()%20;
         if (p < 9) {
             (*temp)->m.mob_char = 'D';

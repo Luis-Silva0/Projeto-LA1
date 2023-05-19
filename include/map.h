@@ -3,6 +3,11 @@
 
 #include "play.h"
 
+typedef struct action {
+    int color;
+    char line[30];
+} Action;
+
 typedef struct map {
     char ch;
     bool walkable;
@@ -17,7 +22,7 @@ typedef struct game {
     int maxX;
     int maxY;
     bool godMode;
-    char actions[8][30];
+    Action actions[8];
     Player *player;
 } *Game;
 
