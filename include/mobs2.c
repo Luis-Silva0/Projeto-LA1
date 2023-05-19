@@ -180,50 +180,6 @@ void dropitem (Game game, Mob_list l){
             }
         }
     }
-    if (drop_potion == 0){
-        if (l->m.mob_char == 'T'){
-            if (game->player->classe.name == "Swordsman"){
-
-            }
-            if (game->player->classe.name == "Archer"){
-                
-            }
-            if (game->player->classe.name == "Gunner"){
-                
-            }
-            if (game->player->classe.name == "Viking"){
-                
-            }
-        }
-        if (l->m.mob_char == 'D'){
-            if (game->player->classe.name == "Swordsman"){
-
-            }
-            if (game->player->classe.name == "Archer"){
-                
-            }
-            if (game->player->classe.name == "Gunner"){
-                
-            }
-            if (game->player->classe.name == "Viking"){
-                
-            }
-        }
-        if (l->m.mob_char == 'H'){
-            if (game->player->classe.name == "Swordsman"){
-
-            }
-            if (game->player->classe.name == "Archer"){
-                
-            }
-            if (game->player->classe.name == "Gunner"){
-                
-            }
-            if (game->player->classe.name == "Viking"){
-                
-            }
-        }
-    }
 }
 
 void combat (Mob_list *l,Game game) {

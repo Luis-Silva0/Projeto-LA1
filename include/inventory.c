@@ -25,7 +25,7 @@ void check_info (Player *p){
     mvwprintw(win, my-2, 1, "Press Any Key To Go Back.");
     wrefresh(win);
 }
-void check_inv (Player *p){
+/*void check_inv (Player *p){
     int x,y;
     getmaxyx(stdscr,y,x);
     WINDOW *win = newwin (16,70,y/2-8,x/2-35);
@@ -33,4 +33,4 @@ void check_inv (Player *p){
     my = getmaxy (win);
     box (win,'|','-');
     y_max = update_inv();
-}
+}*/
