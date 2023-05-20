@@ -39,20 +39,20 @@ void checkItem (Game game,LItems items) {
         attroff (COLOR_PAIR (13));
         if (items->x == game->player->p.x && items->y == game->player->p.y) {
             char temps[30];
-            mvprintw (2,2,"Do you want to pick this up?");
             refresh();
             int x,y;
             int te,tv;
             te = tv = 0;
             getmaxyx (stdscr,y,x);
-            WINDOW *win = newwin (16,70,y/2-8,x/2-35);
-            mvwprintw (win,1,1,"%s",items->it->item);
-            mvwprintw (win,3,2,"Enchantment level: %d",items->it->enchantment);
-            mvwprintw (win,5,2,"Base value: %d", items->it->value);
+            WINDOW *win = newwin (18,70,y/2-8,x/2-35);
+            mvwprintw (win,1,1,"Do you want to pick this up? (y/n)");
+            mvwprintw (win,3,1,"%s",items->it->item);
+            mvwprintw (win,5,2,"Enchantment level: %d",items->it->enchantment);
+            mvwprintw (win,7,2,"Base value: %d", items->it->value);
             if (items->it->d == 1) {
-                mvwprintw (win,9,1,"Previous item: %s",game->player->bag.weapon->item);
-                mvwprintw (win,11,2,"Enchantment level: %d",game->player->bag.weapon->enchantment);
-                mvwprintw (win,13,2,"Base value: %d",game->player->bag.weapon->value);
+                mvwprintw (win,11,1,"Previous item: %s",game->player->bag.weapon->item);
+                mvwprintw (win,13,2,"Enchantment level: %d",game->player->bag.weapon->enchantment);
+                mvwprintw (win,15,2,"Base value: %d",game->player->bag.weapon->value);
                 box (win,0,0);
                 wrefresh (win);
                 char c = getchar ();
@@ -80,9 +80,9 @@ void checkItem (Game game,LItems items) {
                 refresh ();
             }
             else {
-                mvwprintw (win,9,1,"Previous item: %s",game->player->bag.armor->item);
-                mvwprintw (win,11,2,"Enchantment level: %d",game->player->bag.armor->enchantment);
-                mvwprintw (win,13,2,"Base value: %d",game->player->bag.armor->value);
+                mvwprintw (win,11,1,"Previous item: %s",game->player->bag.armor->item);
+                mvwprintw (win,13,2,"Enchantment level: %d",game->player->bag.armor->enchantment);
+                mvwprintw (win,15,2,"Base value: %d",game->player->bag.armor->value);
                 box (win,0,0);
                 wrefresh (win);
                 char c = getchar ();
@@ -466,8 +466,7 @@ void printMap(Game game, int ps) {
     mvprintw(9, (((game->maxX*10)/9) - 23), "-------Actions:-------");
     mvprintw(20, (((game->maxX*10)/9) - 23), "-------Enemies:-------"); 
     mvprintw((game->maxY)-4,((game->maxX*10)/9) - 21, "Drink potion = (p)");
-    mvprintw((game->maxY)-3,((game->maxX*10)/9) - 21, "Inventory = (i)");
-    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 21, "Help = (h)");
+    mvprintw((game->maxY)-2,((game->maxX*10)/9) - 21, "Inventory = (i)");
 }
 
 

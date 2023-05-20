@@ -47,7 +47,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw(game->player->p.y, game->player->p.x, "%c", game->player->character);
                 mvprintw(ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game,&list);
+                combat(&mobs,game,&list,diff);
                 }
             break;
         case 's':
@@ -62,7 +62,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game,&list);
+                combat(&mobs,game,&list,diff);
                 }
             break;
         case 'a':
@@ -77,7 +77,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game,&list);
+                combat(&mobs,game,&list,diff);
                 }
             break;
         case 'd':
@@ -92,7 +92,7 @@ int movement(Game game,int floor,int diff) {
                 mvprintw (game->player->p.y,game->player->p.x,"%c",game->player->character);
                 mvprintw (ty,tx,"%c",game->map[ty][tx].ch);
                 move_mobs(game,&mobs,walk_mob);
-                combat(&mobs,game,&list);
+                combat(&mobs,game,&list,diff);
                 }
             break;
         case 'k':
@@ -104,9 +104,6 @@ int movement(Game game,int floor,int diff) {
         case 'i' :
             check_info(game->player);
             s = getchar();
-            break;
-        case 'b' :
-            //check_inv(game->player);
             break;
         case 'p' :
             if (game->player->bag.potion > 0) {
