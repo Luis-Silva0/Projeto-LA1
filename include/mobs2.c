@@ -17,34 +17,71 @@ typedef struct mob_list {
     struct mob_list *prox;
 } *Mob_list;
 
-void show_mobs (Mob_list l,int x,Game game){
+int isPathClear(Game game, int x, int y) {
+    float dx = (float)x - (float)game->player->p.x;
+    float dy = (float)y - (float)game->player->p.y;
+    float distance = sqrt(dx * dx + dy * dy);
+
+    float stepX = dx / distance;
+    float stepY = dy / distance;
+
+    float currentX = (float)game->player->p.x + 0.5f;
+    float currentY = (float)game->player->p.y + 0.5f;
+
+    for (int i = 0; i < distance; i++) {
+        int tileX = (int)currentX;
+        int tileY = (int)currentY;
+
+        if (game->map[tileY][tileX].ch == '#') {
+            return 0;
+        }
+
+        currentX += stepX;
+        currentY += stepY;
+    }
+
+    return 1;
+}
+
+int isMobVisible(Game game, int x, int y) {
+    float dx = (float)x - (float)game->player->p.x;
+    float dy = (float)y - (float)game->player->p.y;
+    float distance = sqrt(dx * dx + dy * dy);
+
+    if (distance <= 9.0f && !game->godMode) {
+        return isPathClear(game, x, y);
+    } else {
+        return game->godMode;
+    }
+}
+
+void show_mobs(Mob_list l, int x, Game game) {
     int y = 22;
     while (l) {
         if (l->m.vida > 0) {
-            mvprintw (y,x,"%c: %d %d %d",l->m.mob_char,l->m.pos_x,l->m.pos_y,l->m.vida);
-            refresh();
-            init_pair(4,COLOR_WHITE,COLOR_RED);
-            int tempx,tempy;
-            tempx = l->m.pos_x;
-            tempy = l->m.pos_y;
-            if ((tempx <= game->player->p.x + 7 && tempx >= game->player->p.x - 7) && (tempy <= game->player->p.y + 7 && tempy >= game->player->p.y - 7) && !game->godMode) {
-                attron (COLOR_PAIR(4));
-                mvprintw (tempy,tempx,"%c",l->m.mob_char);
-                attroff (COLOR_PAIR(4));
-                if (l->m.visible == false) {
-                    actionreload (game,4,0,l->m.mob_char);
-                    l->m.visible = true; 
+            int tempx = l->m.pos_x;
+            int tempy = l->m.pos_y;
+
+            if (isMobVisible(game, tempx, tempy)) {
+                mvprintw(y, x, "%c: %d %d %d", l->m.mob_char, tempx, tempy, l->m.vida);
+                refresh();
+                init_pair(4, COLOR_WHITE, COLOR_RED);
+                attron(COLOR_PAIR(4));
+                mvprintw(tempy, tempx, "%c", l->m.mob_char);
+                attroff(COLOR_PAIR(4));
+                if (game->godMode == true){
+                    l->m.visible = true;
+                }
+                if (l->m.visible == false){
+                    actionreload(game,4,0,l->m.mob_char);
+                    l->m.visible = true;
                 }
                 refresh();
+                y++;
             }
-            else if (game->godMode) {
-                attron (COLOR_PAIR(4));
-                mvprintw (tempy,tempx,"%c",l->m.mob_char);
-                attroff (COLOR_PAIR(4));
-                refresh();
+            else {
+                l->m.visible = false;
             }
-            else l->m.visible = false;
-            y++;
         }
         l = l->prox;
     }
