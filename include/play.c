@@ -117,6 +117,10 @@ int movement(Game game,int floor,int diff) {
             }
             else p = 1;
             break;
+        case 'e':
+            check_extrainfo(game);
+            s = getchar ();
+            break;
         default:
             break;
         }      
@@ -136,9 +140,10 @@ int movement(Game game,int floor,int diff) {
         }
         actionShow (game);
         refresh();
-        checkItem (game,list);
-        mvprintw (2,((game->maxX*10)/9) - 17,"%s %d","Health:",game->player->health);
-        mvprintw (3,((game->maxX*10)/9) - 17,"%s %d","Money:",game->player->money);
+        checkItem (game,&list);
+        mvprintw (0,((game->maxX*10)/9) - 23,"--------Player--------");
+        mvprintw (2,((game->maxX*10)/9) - 18,"%s %d","Health:",game->player->health);
+        mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Money:",game->player->money);
         //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {

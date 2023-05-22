@@ -164,19 +164,139 @@ void move_mobs (Game game,Mob_list *l,int d) {
     }
     l = head;
 }
+void addItem (LItems *li, Item i,int x,int y) {
+    LItems *head = &(*li);
+    while ((*li) != NULL) {
+        li = &(*li)->prox;
+    }
+    (*li) = malloc (sizeof (struct litems)); 
+    (*li)->it = malloc (sizeof(struct item));
+    (*li)->prox = NULL;
+    strcpy((*li)->it->item,i->item);
+    (*li)->it->enchantment = i->enchantment;
+    (*li)->it->value = i->value;
+    (*li)->it->d = i->d;
+    (*li)->x = x;
+    (*li)->y = y;
+    (*li)->it->visible = false;
+    li = head;
+}
+
+void checkItem (Game game,LItems *items) {
+    LItems *head = &(*items);
+    while ((*items) != NULL) {
+        if (isMobVisible (game,(*items)->x,(*items)->y)) {
+            attron (COLOR_PAIR (13));
+            if ((*items)->it->d == 1) {
+                if ((*items)->it->visible == false ) {
+                    actionreload(game,7,0,'w');
+                    (*items)->it->visible = true;
+                }
+                mvprintw ((*items)->y,(*items)->x,"W");
+            }
+            else {
+                if ((*items)->it->visible == false ) {
+                    actionreload(game,7,0,'a');
+                    (*items)->it->visible = true;
+                }
+                mvprintw ((*items)->y,(*items)->x,"A");
+            }
+            attroff (COLOR_PAIR (13));
+        }
+        else (*items)->it->visible = false;
+        if ((*items)->x == game->player->p.x && (*items)->y == game->player->p.y) {
+            char temps[40];
+            refresh();
+            int x,y;
+            int te,tv;
+            te = tv = 0;
+            getmaxyx (stdscr,y,x);
+            WINDOW *win = newwin (18,70,y/2-8,x/2-35);
+            mvwprintw (win,1,1,"Do you want to pick this up? (y/n)");
+            mvwprintw (win,3,1,"%s",(*items)->it->item);
+            mvwprintw (win,5,2,"Enchantment level: %d",(*items)->it->enchantment);
+            mvwprintw (win,7,2,"Base value: %d", (*items)->it->value);
+            if ((*items)->it->d == 1) {
+                mvwprintw (win,11,1,"Previous item: %s",game->player->bag.weapon->item);
+                mvwprintw (win,13,2,"Enchantment level: %d",game->player->bag.weapon->enchantment);
+                mvwprintw (win,15,2,"Base value: %d",game->player->bag.weapon->value);
+                box (win,0,0);
+                wrefresh (win);
+                char c = getchar ();
+                switch (c)
+                {
+                case 'y':
+                    strcpy(temps,game->player->bag.weapon->item);
+                    te = game->player->bag.weapon->enchantment;
+                    tv = game->player->bag.weapon->value;
+                        
+                    strcpy(game->player->bag.weapon->item,(*items)->it->item);
+                    game->player->bag.weapon->enchantment = (*items)->it->enchantment;
+                    game->player->bag.weapon->value = (*items)->it->value;
+                        
+                    strcpy((*items)->it->item,temps);
+                    (*items)->it->enchantment = te;
+                    (*items)->it->value = tv;
+                    
+                    break;
+                
+                default:
+                    break;
+                }
+                delwin (win);
+                refresh ();
+            }
+            else {
+                mvwprintw (win,11,1,"Previous item: %s",game->player->bag.armor->item);
+                mvwprintw (win,13,2,"Enchantment level: %d",game->player->bag.armor->enchantment);
+                mvwprintw (win,15,2,"Base value: %d",game->player->bag.armor->value);
+                box (win,0,0);
+                wrefresh (win);
+                char c = getchar ();
+                switch (c)
+                {
+                case 'y':
+                    strcpy(temps,game->player->bag.armor->item);
+                    te = game->player->bag.armor->enchantment;
+                    tv = game->player->bag.armor->value;
+                        
+                    strcpy(game->player->bag.armor->item,(*items)->it->item);
+                    game->player->bag.armor->enchantment = (*items)->it->enchantment;
+                    game->player->bag.armor->value = (*items)->it->value;
+                        
+                    strcpy((*items)->it->item,temps);
+                    (*items)->it->enchantment = te;
+                    (*items)->it->value = tv;
+                    
+                    break;
+                
+                default:
+                    break;
+                }
+                delwin (win);
+                refresh ();
+                   
+            }
+        }
+        items = &((*items)->prox);
+    }
+    items = head;
+}
 
 void dropitem (Game game, Mob_list *l,LItems *items, int diff){
     Item i = malloc (sizeof (struct item));
     srand(clock());
-    int drop_potion = rand()%6;
-    int drop_item = 0;
-    if (drop_potion == 0){
+    int drop_potion = rand()%4;
+    int drop_item = rand()%3;
+    if (drop_potion != 0){
         game->player->bag.potion ++;
         actionreload (game,0,0,'n');
     }
     int d;
     d = rand() % 2 + 1;
-    if (drop_item == 0){
+    if (drop_item != 0){
+        if (d == 1) actionreload (game,6,0,'w');
+        else actionreload (game,6,0,'a');
         if ((*l)->m.mob_char == 'T'){
             if (strcmp (game->player->classe.name,"Swordsman") == 0){
                 if (d == 1){

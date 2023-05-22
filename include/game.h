@@ -241,6 +241,12 @@ void game () {
             break;
         }
     }
+    if (floor == 7 && c == 1) {
+        erase ();
+        mvprintw (y/2-1,tx/2-5,"Game Over");
+        mvprintw (y/2,tx/2-9,"Thanks for playing");
+        refresh ();
+    }
     getchar ();
 }
 

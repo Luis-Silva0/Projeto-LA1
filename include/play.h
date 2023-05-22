@@ -16,10 +16,11 @@ typedef struct classe {
 } Class;
 
 typedef struct item{
-    char item[30];
+    char item[40];
     int enchantment;
     int value;
     int d;
+    bool visible;
 } *Item;
 
 typedef struct litems {
