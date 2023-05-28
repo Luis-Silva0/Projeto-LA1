@@ -187,19 +187,26 @@ void checkItem (Game game,LItems *items) {
     while ((*items) != NULL) {
         if (isMobVisible (game,(*items)->x,(*items)->y)) {
             attron (COLOR_PAIR (13));
-            if ((*items)->it->d == 1) {
-                if ((*items)->it->visible == false ) {
-                    actionreload(game,7,0,'w');
-                    (*items)->it->visible = true;
-                }
-                mvprintw ((*items)->y,(*items)->x,"W");
+            if(game->godMode == true){
+                (*items)->it->visible = true;
+                if ((*items)->it->d == 1) mvprintw ((*items)->y,(*items)->x,"W");
+                else mvprintw ((*items)->y,(*items)->x,"A");
             }
             else {
-                if ((*items)->it->visible == false ) {
-                    actionreload(game,7,0,'a');
-                    (*items)->it->visible = true;
+                if ((*items)->it->d == 1) {
+                    if ((*items)->it->visible == false ) {
+                        actionreload(game,7,0,'w');
+                        (*items)->it->visible = true;
+                    }
+                    mvprintw ((*items)->y,(*items)->x,"W");
                 }
-                mvprintw ((*items)->y,(*items)->x,"A");
+                else {
+                    if ((*items)->it->visible == false ) {
+                        actionreload(game,7,0,'a');
+                        (*items)->it->visible = true;
+                    }
+                    mvprintw ((*items)->y,(*items)->x,"A");
+                }
             }
             attroff (COLOR_PAIR (13));
         }
@@ -309,6 +316,8 @@ void dropitem (Game game, Mob_list *l,LItems *items, int diff){
                     i->enchantment = diff + rand () %5 - 2;
                     i->value = 9;
                 }
+                i->d = d;
+                addItem(&(*items),i,(*l)->m.pos_x,(*l)->m.pos_y);
             }
             if (strcmp (game->player->classe.name,"Archer") == 0){
                 if (d == 1){

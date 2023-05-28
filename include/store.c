@@ -75,4 +75,8 @@ Map* createshop (int x, int y){
     }
     fclose (f);
     return mapa;
+
+    // +5 gold per level of enchantment;
+    // 4 items -> potions, 1 item from thralls (25 gold base), 1 from dreggs (50 gold base) and 1 from hydras (75 gold base);
+    // enchantment = floor + rand() % 4;
 }

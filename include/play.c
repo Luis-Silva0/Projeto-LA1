@@ -140,10 +140,10 @@ int movement(Game game,int floor,int diff) {
         }
         actionShow (game);
         refresh();
-        checkItem (game,&list);
         mvprintw (0,((game->maxX*10)/9) - 23,"--------Player--------");
         mvprintw (2,((game->maxX*10)/9) - 18,"%s %d","Health:",game->player->health);
         mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Money:",game->player->money);
+        checkItem (game,&list);
         //radar (((game->maxX*10)/9) - 12, game->player->p);
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
@@ -197,8 +197,9 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor, int diff) {
     game->player = player;
     game->godMode = false;
 
-    mvprintw (2,((game->maxX*10)/9) - 16,"%s %d","Health:",game->player->health);
-    mvprintw (3,((game->maxX*10)/9) - 16,"%s %d","Money:",game->player->money);
+    mvprintw (0,((game->maxX*10)/9) - 23,"--------Player--------");
+    mvprintw (2,((game->maxX*10)/9) - 18,"%s %d","Health:",game->player->health);
+    mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Money:",game->player->money);
 
     printMap(game, ps);
     refresh ();
