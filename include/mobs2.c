@@ -229,6 +229,7 @@ void checkItem (Game game,LItems *items) {
                 mvwprintw (win,15,2,"Base value: %d",game->player->bag.weapon->value);
                 box (win,0,0);
                 wrefresh (win);
+                delwin (win);
                 char c = getchar ();
                 switch (c)
                 {
@@ -250,7 +251,7 @@ void checkItem (Game game,LItems *items) {
                 default:
                     break;
                 }
-                delwin (win);
+                
                 refresh ();
             }
             else {
@@ -259,6 +260,7 @@ void checkItem (Game game,LItems *items) {
                 mvwprintw (win,15,2,"Base value: %d",game->player->bag.armor->value);
                 box (win,0,0);
                 wrefresh (win);
+                delwin (win);
                 char c = getchar ();
                 switch (c)
                 {
@@ -280,7 +282,7 @@ void checkItem (Game game,LItems *items) {
                 default:
                     break;
                 }
-                delwin (win);
+                
                 refresh ();
                    
             }
@@ -496,12 +498,12 @@ void combat (Mob_list *l,Game game,LItems *list, int diff) {
     attack = (game->player->bag.weapon->value + game->player->bag.weapon->enchantment);
     while (*l) {
         if ((*l)->m.vida > 0) {
-            if ((*l)->m.range >= abs((*l)->m.pos_x - game->player->p.x) && (*l)->m.range >= abs((*l)->m.pos_y - game->player->p.y)) {
+            if ((*l)->m.range >= abs((*l)->m.pos_x - game->player->p.x) && (*l)->m.range >= abs((*l)->m.pos_y - game->player->p.y) && (*l)->m.visible == true) {
                 if ((*l)->m.dano - defense >= 0) {
                     game->player->health -= ((*l)->m.dano - defense);
                 }
             }
-            if (game->player->classe.range >= abs((*l)->m.pos_x - game->player->p.x) && game->player->classe.range >= abs((*l)->m.pos_y - game->player->p.y)) {
+            if (game->player->classe.range >= abs((*l)->m.pos_x - game->player->p.x) && game->player->classe.range >= abs((*l)->m.pos_y - game->player->p.y) && (*l)->m.visible == true) {
                 (*l)->m.vida -= attack;
                 if ((*l)->m.vida <= 0){
                     mob_money = rand()%11 + 5;
