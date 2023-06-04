@@ -9,7 +9,6 @@
 #include "map.h"
 #include "play.h"
 
-bool FOG_OF_WAR_ENABLED = true;
 
 int trans (int n) {
     int r = ((n+1)*1001)/256;
@@ -92,24 +91,22 @@ void actionreload (Game game, int n,int m,char c) {
 void actionShow (Game game) {
     int y = 11;
     for (int i = 0;i < 8;i++) {
-        if (game->actions[i].line != NULL) {
-            if (game->actions[i].color == 0) {
+        if (game->actions[i].color == 0) {
                 attron (COLOR_PAIR(7));
                 mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
                 attroff (COLOR_PAIR(7));
                 y++;
-            }
-            else if (game->actions[i].color == 1) {
-                mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
-                y++;
-            }
-            else if (game->actions[i].color == 2) {
+        }
+        else if (game->actions[i].color == 1) {
+            mvprintw(y, (game->maxX * 10) / 9 - 22, "%s", game->actions[i].line);
+            y++;
+        }
+        else if (game->actions[i].color == 2) {
                 attron (COLOR_PAIR(8));
                 mvprintw (y,(game->maxX*10)/9 - 22, "%s",game->actions[i].line);
                 attroff (COLOR_PAIR(8));
                 y++;
             }
-        }
     }
 }
 

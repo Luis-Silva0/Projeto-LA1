@@ -1,7 +1,4 @@
-#include <time.h>
 #include <ncurses.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "play.h"
 #include "mobs2.c"
 
