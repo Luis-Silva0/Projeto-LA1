@@ -215,7 +215,7 @@ void game () {
     while (floor < 7) {
         erase ();
         if (floor == 1){
-            mapa = createshop (x,y);
+            mapa = createshop (x,y,player);
         }
         else{
             mapa = createmap (x,y);
@@ -234,8 +234,8 @@ void game () {
             }
             else {
             erase ();
-            mvprintw (y/2,(tx/2)-4,"%s","You ragequitted?");
-            mvprintw ((y/2)+1,(tx/2)-18,"%s","Press any key to be stupid somewhere else...");
+            mvprintw (y/2,(tx/2)-6,"%s","You ragequitted");
+            mvprintw ((y/2)+1,(tx/2)-18,"%s","Press any key to go back to the menu");
             refresh();
             }
             break;

@@ -306,6 +306,8 @@ void printMap(Game game, int ps) {
     int i;
     int sx = 0; 
     int sy = 0;
+    int kx = 0; 
+    int ky = 0;
     if (ps > 0){
         game->godMode = true;
     }
@@ -314,6 +316,10 @@ void printMap(Game game, int ps) {
             if (game->map[i][j].ch == 's'){
                 sx = j;
                 sy = i;
+            }
+            if (game->map[i][j].ch == 'K'){
+                kx = j;
+                ky = i;
             }
         }
     }
@@ -348,6 +354,10 @@ void printMap(Game game, int ps) {
                     attrset(COLOR_PAIR(12));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
+                else if (game->map[i][j].ch == 'b'){
+                    attrset(COLOR_PAIR(14));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
                 else {
                     attrset(COLOR_PAIR(9));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
@@ -375,6 +385,6 @@ void printMap(Game game, int ps) {
     mvprintw((game->maxY)-4,((game->maxX*10)/9) - 21, "Drink potion = (p)");
     mvprintw((game->maxY)-3,((game->maxX*10)/9) - 21, "Inventory = (i)");
     mvprintw((game->maxY)-2,((game->maxX*10)/9) - 21, "Extra info = (e)");
+    mvprintw(ky-1,kx-10,"Come browse my shop!");
+    mvprintw(ky-3,kx-23,"Go to the yellow square to enter the shop menu");
 }
-
-

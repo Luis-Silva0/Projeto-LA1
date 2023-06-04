@@ -95,9 +95,10 @@ int movement(Game game,int floor,int diff) {
                 combat(&mobs,game,&list,diff);
                 }
             break;
-        case 'k':
+        /*case 'k':
             game->player->health = 0;
             break;
+        */
         case 'g':
             game->godMode = !game->godMode;
             break;
@@ -142,9 +143,11 @@ int movement(Game game,int floor,int diff) {
         refresh();
         mvprintw (0,((game->maxX*10)/9) - 23,"--------Player--------");
         mvprintw (2,((game->maxX*10)/9) - 18,"%s %d","Health:",game->player->health);
-        mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Money:",game->player->money);
+        mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Gold:",game->player->money);
         checkItem (game,&list);
-        //radar (((game->maxX*10)/9) - 12, game->player->p);
+        if (game->map[game->player->p.y][game->player->p.x].ch == 'b'){
+            openShop(game);
+        }
         refresh ();
         if (game->map[game->player->p.y][game->player->p.x].ch == 's') {
             attrset(COLOR_PAIR(2));
@@ -199,7 +202,7 @@ int play (Map *mapa, int maxX, int maxY,Player *player,int floor, int diff) {
 
     mvprintw (0,((game->maxX*10)/9) - 23,"--------Player--------");
     mvprintw (2,((game->maxX*10)/9) - 18,"%s %d","Health:",game->player->health);
-    mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Money:",game->player->money);
+    mvprintw (3,((game->maxX*10)/9) - 18,"%s %d","Gold:",game->player->money);
 
     printMap(game, ps);
     refresh ();

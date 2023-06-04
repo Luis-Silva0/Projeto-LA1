@@ -22,6 +22,7 @@ int main () {
     init_pair(10,20,20);
     init_pair(11,22,22);
     init_pair(13,COLOR_BLACK,COLOR_WHITE);
+    init_pair(14,COLOR_YELLOW,COLOR_YELLOW);
     noecho ();
     curs_set (0);
     getmaxyx (stdscr,y,x);
@@ -55,7 +56,7 @@ int main () {
         else {
             if (s == 's') {
                 erase ();
-                mvprintw (y/2,x/2,"%s","There's no settings it's a terminal roguelike");
+                mvprintw (y/2,x/2-20,"%s","There's no settings it's a terminal roguelike");
                 refresh ();
                 getchar ();
             }
