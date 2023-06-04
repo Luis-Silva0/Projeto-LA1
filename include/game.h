@@ -170,7 +170,7 @@ Player characterselect () {
                 r.p.y = -1;
                 r.classe.name = "Viking";
                 r.character = '@';
-                r.health = 1000;
+                r.health = 100;
                 r.money = 0;
                 r.classe.attack = 16;
                 r.classe.defense = 10;
@@ -212,10 +212,10 @@ void game () {
     getmaxyx (stdscr,y,x);
     tx = x;
     x-=(x/10);
-    while (floor < 7) {
+    while (floor <= 7) {
         erase ();
-        if (floor == 1){
-            mapa = createshop (x,y,player);
+        if (floor == 3){
+            mapa = createshop (x,y,player,floor);
         }
         else{
             mapa = createmap (x,y);
@@ -241,7 +241,7 @@ void game () {
             break;
         }
     }
-    if (floor == 7 && c == 1) {
+    if (floor == 8 && c == 1) {
         erase ();
         mvprintw (y/2-1,tx/2-5,"Game Over");
         mvprintw (y/2,tx/2-9,"Thanks for playing");

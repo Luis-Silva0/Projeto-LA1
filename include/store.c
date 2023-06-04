@@ -127,7 +127,7 @@ void openShop(Game game){
 
 }
 
-void createItems(Player player){
+void createItems(Player player, int floor){
     items_shop = malloc(sizeof(struct litems_s));
     items_shop->it_w = malloc(sizeof(struct item_s));
     items_shop->it_a = malloc(sizeof(struct item_s));
@@ -135,7 +135,7 @@ void createItems(Player player){
     rand_w = rand()%6;
     rand_a = rand()%6;
     num_p = rand()%11 + 5;
-    rand_ench = rand()%5;
+    rand_ench = rand()%5 + floor;
     items_shop->potions = num_p;
 
     if (strcmp(player.classe.name,"Swordsman") == 0){
@@ -292,7 +292,7 @@ void createItems(Player player){
     }
 }
 
-Map* createshop (int x, int y, Player player){
+Map* createshop (int x, int y, Player player, int floor){
     Map* mapa = calloc (y+1,sizeof(Map));
     for (int i = 0;i <= y;i++) {
         mapa[i] = calloc (x+1,sizeof(char)+sizeof(bool));
@@ -355,7 +355,7 @@ Map* createshop (int x, int y, Player player){
             mapa[center2.y][center2.x].walkable = true;
         }
     }
-    createItems(player);
+    createItems(player, floor);
     FILE *f;
     f = fopen("ASCIIart/Shop.txt","r");
     for (int i = 1;i < 7;i++) {

@@ -506,7 +506,15 @@ void combat (Mob_list *l,Game game,LItems *list, int diff) {
             if (game->player->classe.range >= abs((*l)->m.pos_x - game->player->p.x) && game->player->classe.range >= abs((*l)->m.pos_y - game->player->p.y) && (*l)->m.visible == true) {
                 (*l)->m.vida -= attack;
                 if ((*l)->m.vida <= 0){
-                    mob_money = rand()%11 + 5;
+                    if ((*l)->m.mob_char == 'T'){
+                        mob_money = rand()%11 + 5;
+                    }
+                    else if((*l)->m.mob_char == 'D'){
+                        mob_money = rand()%11 + 10;
+                    }
+                    else{
+                        mob_money = rand()%11 + 15;
+                    }
                     game->player->money += mob_money;
                     actionreload(game,5,0,(*l)->m.mob_char);
                     actionreload(game,1,mob_money,'n');
@@ -522,7 +530,7 @@ void combat (Mob_list *l,Game game,LItems *list, int diff) {
 Mob_list create_mob2 (Map *m,int x,int y,int n,int floor,int diff) {
     int mx = (10*x)/9 - 25;
     Mob_list ml = malloc (sizeof(struct mob_list));
-    if (floor == 1){
+    if (floor == 3){
         return NULL;
     }
     Mob_list *temp = &ml;
