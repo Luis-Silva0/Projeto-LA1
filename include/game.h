@@ -212,9 +212,9 @@ void game () {
     getmaxyx (stdscr,y,x);
     tx = x;
     x-=(x/10);
-    while (floor <= 7) {
+    while (floor <= 10) {
         erase ();
-        if (floor == 3){
+        if (floor % 3 == 2){
             mapa = createshop (x,y,player,floor);
         }
         else{

@@ -255,6 +255,10 @@ void printTile(Game game, int y, int x) {
         attrset(COLOR_PAIR(5));
         mvprintw(y, x, "%c", game->map[y][x].ch);
     }
+    else if (game->map[y][x].ch == 'b'){
+        attrset(COLOR_PAIR(14));
+        mvprintw(y, x, "%c", game->map[y][x].ch);
+    }
     else if (game->map[y][x].ch == '.'){
         attrset(COLOR_PAIR(12));
         mvprintw(y, x, "%c", game->map[y][x].ch);
@@ -344,6 +348,10 @@ void printMap(Game game, int ps) {
                     attrset(COLOR_PAIR(5));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
                 }
+                else if (game->map[i][j].ch == 'b'){
+                    attrset(COLOR_PAIR(14));
+                    mvprintw(i, j, "%c", game->map[i][j].ch);
+                }
                 else if (game->map[i][j].ch != '.' && game->map[i][j].ch != '+'){
                         attrset(COLOR_PAIR(2));
                         attron (A_REVERSE);
@@ -353,11 +361,7 @@ void printMap(Game game, int ps) {
                 else if (game->map[i][j].ch == '.'){
                     attrset(COLOR_PAIR(12));
                     mvprintw(i, j, "%c", game->map[i][j].ch);
-                }
-                else if (game->map[i][j].ch == 'b'){
-                    attrset(COLOR_PAIR(14));
-                    mvprintw(i, j, "%c", game->map[i][j].ch);
-                }
+                }                
                 else {
                     attrset(COLOR_PAIR(9));
                     mvprintw(i, j, "%c", game->map[i][j].ch);

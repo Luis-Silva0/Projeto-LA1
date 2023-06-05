@@ -127,7 +127,7 @@ int movement(Game game,int floor,int diff) {
         }      
 //        mob_movement(game->player->p, game->map, walk_mob);
         int ps = 0;
-        if (floor == 3){
+        if (floor % 3 == 2){
             ps = 2;
         }
         printMap(game, ps);
@@ -174,7 +174,7 @@ int movement(Game game,int floor,int diff) {
 int play (Map *mapa, int maxX, int maxY,Player *player,int floor, int diff) {
     srand(clock());
     int ps = 0;
-    if (floor == 3){
+    if (floor % 3 == 2){
         ps = 1;
     }
     int myx, myy,mx = (maxX*10)/9 - 25;

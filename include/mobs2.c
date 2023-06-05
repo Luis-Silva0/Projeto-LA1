@@ -530,7 +530,7 @@ void combat (Mob_list *l,Game game,LItems *list, int diff) {
 Mob_list create_mob2 (Map *m,int x,int y,int n,int floor,int diff) {
     int mx = (10*x)/9 - 25;
     Mob_list ml = malloc (sizeof(struct mob_list));
-    if (floor == 3){
+    if (floor % 3 == 2){
         return NULL;
     }
     Mob_list *temp = &ml;
